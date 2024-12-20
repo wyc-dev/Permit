@@ -1,0 +1,29 @@
+{
+	"name": "sveltekit",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "vite dev --host 0.0.0.0",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@fontsource/fira-mono": "^4.5.10",
+		"@sveltejs/adapter-static": "^2.0.3",
+		"@sveltejs/kit": "^1.20.4",
+		"@types/qrcode-svg": "^1.1.5",
+		"svelte": "^4.0.5",
+		"vite": "^4.5.1"
+	},
+	"type": "module",
+	"dependencies": {
+		"@splinetool/loader": "^1.9.48",
+		"@splinetool/runtime": "^1.9.48",
+		"@ton/ton": "^15.1.0",
+		"@tonconnect/sdk": "^3.0.5",
+		"@tonconnect/ui": "^2.0.9",
+		"pocketbase": "^0.21.5",
+		"qrcode-svg": "^1.1.0",
+		"three": "^0.171.0",
+		"tonweb": "^0.0.3"
+	}
+}

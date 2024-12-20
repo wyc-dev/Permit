@@ -1,0 +1,785 @@
+:root {
+
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 500;
+	/* color: rgba(256, 256, 256, 0.8); */
+	margin: 0;
+	padding: 0;
+
+	width:100vw;
+	top: 0vh;
+	color: #1a2128;
+	background: #ffffff;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+	overflow-y: auto;
+
+}
+
+
+
+.sub-text {
+	color: gold;
+	text-align: left;
+	margin-left: 16px;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: 700;
+	animation: colorChange 1s infinite;
+	transition: color 1s ease-in-out;
+}
+
+h1{
+	font-family: "Tomorrow", sans-serif;
+	font-weight: 600;
+	top: 28px;
+	color: #1a2128;
+	text-align: center;
+	font-size: 20px;
+	font-style: normal;
+	word-break: break-word;
+}
+
+p, th, td, placeholder,a, span, h3, button {
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 500;
+	color: #ffffff;
+	text-align: center;
+	font-size: 16px;
+	font-style: normal;
+	margin: 5px 0;
+	line-height: 1.5;
+	word-break: break-word;
+	z-index:100; 
+}
+select, option{
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 600;
+	text-align: left;
+	font-size: 16px;
+}
+table{
+	z-index:4;
+}
+
+
+.text{
+	position: fixed;
+	left: 50%; width:100vw;
+	transform: translate(-50%, -50%);
+}
+
+.centered-container {
+	position: fixed;
+	top:120px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 90vw;
+	max-width: 400px;
+	text-align: left;
+}
+
+.p_text {
+	position: relative;
+	width: 100%;
+	text-align:left;
+}
+
+input {
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-size: 16px;
+	color: #ffffff;
+	margin: 0; /* 使用 '0' 代替 'none' 來設置外邊距為零 */
+	border: 1px solid #ffffff00;
+	border-radius: 16px;
+
+	outline: none; /* 移除默認的聚焦框 */
+	height: 32px;
+	background: #ffffff11; /* 半透明背景色 */
+}
+
+
+input:hover, input:focus, input:active{
+	box-shadow: 0 0 8px 1px gold;
+	outline: none;
+	background:#000000aa;
+}
+
+input::placeholder {
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+  font-size: 14px; /* 根據你的需要調整字體大小 */
+  color: #ffffffaa; /* 可選：更改顏色以使其更清晰 */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.header_small {
+	position: absolute;
+	top: 66px;
+	color: white;
+	font-size: 14px;
+	font-weight: 500;
+	width: 100%;
+}
+
+#footer{
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	height: 56px;
+	width: 100vw;
+	z-index: 1;
+}
+
+
+
+button, select{
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 500;
+	font-size: 16px;
+	cursor:pointer;
+	background: #00000088;
+	text-align: center; text-align-last: center;
+	border: 1px solid gold;
+	border-radius: 16px;
+	outline: none;
+	display: flex;
+	color: #FFFFFFcc;
+	align-items: center; /* Vertically center the content */
+	justify-content: center; /* Horizontally center the content */
+	user-select: none; /* 禁止文字選中 */
+	-webkit-user-select: none; /* 兼容 Safari */
+	-moz-user-select: none; /* 兼容 Firefox */
+	-ms-user-select: none; /* 兼容 IE */
+}
+
+.select{
+	border: 1px solid gold;
+}
+.select:hover{
+	border: 1px solid #FFFFFF;
+}
+
+button:active, button:hover, button:focus,
+select:active, select:hover, select:focus
+{
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	border: 1px solid #ffffff;
+	background: transparent;
+	color: #ffffff;
+	font-weight: 600;
+}
+
+button:disabled{
+	opacity: 0.4;
+}
+
+
+
+.button56{
+	cursor:pointer;
+	height:56px;
+	width:56px;
+	display: flex;
+	align-items: center; /* Vertically center the content */
+	justify-content: center; /* Horizontally center the content */
+}
+
+.main_button{
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 700;
+	font-size: 16px;
+	position: fixed;
+	left: 50%;
+	width: 50vw;
+	height:56px;
+	min-width: 240px;
+	max-width: 320px;
+	margin:0;
+	bottom:4vh;
+	transform: translate(-50%);
+	animation: borderChange 3s infinite;
+	transition: border 3s ease-in-out;
+}
+
+select, select:focus, select:hover, select:active {
+	border: none;
+	outline: none;
+}
+
+
+
+  .video-background {
+	opacity: 0.1;
+	position: fixed; /* 或者 'fixed'，取决于您的布局需求 */
+	left: 50%;
+	bottom: 0;
+	top:0;
+	min-width:100vw;
+	z-index: -1; /* 确保视频在内容之下 */
+	transform: translateX(-50%);
+  }
+
+  .backdrop {
+	background :#111111;
+	position: fixed; /* 或者 'fixed'，取决于您的布局需求 */
+	left: 50%;
+	bottom: 0;
+	top:0;
+	min-width:100vw;
+	z-index: -2; /* 确保视频在内容之下 */
+	transform: translateX(-50%);
+  }
+
+
+
+
+
+
+
+
+
+
+
+/* 自定义复选框的样式 */
+.custom-checkbox {
+	position: relative;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-left: 16px;
+	margin-top: -4px;
+}
+
+.custom-checkbox input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.custom-checkbox .checkmark {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	height: 14px;
+	width: 14px;
+	background-color: #ffffff44; /* 设置复选框背景颜色 */
+	border: 1px solid gold;
+	border-radius: 4px;
+}
+
+.custom-checkbox input:checked + .checkmark {
+	background-color: gold; /* 选中时保持相同背景颜色 */
+	border: 1px solid #ffffff;
+}
+
+/* 复选框标记（勾选）的样式 */
+.custom-checkbox .checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+	left: 3px;
+	top: 0px;
+	width: 5px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	transform: rotate(45deg);
+}
+
+.custom-checkbox input:checked + .checkmark:after {
+	display: block;
+}
+
+.modal {
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 240px;
+	min-width: 240px;
+	max-width: 320px;
+	padding: 24px;
+	border: 1px solid gold;
+	border-radius: 28px;
+	background-color: black;
+	z-index: 1000;
+	display: flex;
+	flex-direction: column; /* Stack children vertically */
+	align-items: center; /* Center children horizontally */
+	justify-content: center; /* Center children vertically */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Optional: Adds shadow for better visibility */
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	min-height:780px;
+	background-color: #111100;
+	z-index: 999;
+}
+
+.modal {
+	position: fixed;
+	/* 其他样式 */
+	max-height: 80vh; /* 限制模态框的最大高度 */
+	overflow-y: auto; /* 当内容超出高度时，启用垂直滚动 */
+}
+
+/* 定义滚动时的残影效果 */
+.scrolling {
+	filter: blur(4px); /* 调整模糊程度 */
+	transition: filter 0.4s ease-out; /* 控制滤镜过渡效果 */
+}
+
+.blur-text {
+	filter: blur(8px);
+	font-weight: bold; /* Making the text bold */
+	font-size: 20px;
+	color: yellow;
+	transition: filter 0.5s ease;
+	line-height: 16px;
+	height: 16px;
+}
+
+
+
+.centered-container {
+	position: fixed;
+	top:120px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 90vw;
+	max-width: 400px;
+	text-align: left;
+}
+
+.p_text {
+	position: relative;
+	width: 100%;
+	text-align:left;
+}
+
+.circle {
+	background: #111111;
+	width: 80px;            /* Specify the width of the circle */
+	height: 80px;           /* Specify the height of the circle */
+	border-radius: 80px;      /* Makes the shape a circle */
+	display: flex;           /* Centers the content inside the div */
+	justify-content: center; /* Horizontally center the content */
+	align-items: center;     /* Vertically center the content */
+}
+
+
+
+.circle-container {
+	position: absolute;
+	top: 240px;
+	left: 50%;               /* Move to the middle of the page horizontally */
+	transform: translateX(-50%); /* Shift it back by half of its own width */
+	width: 100%;             /* Take full width to center content properly */
+	display: flex;
+	justify-content: center; /* Center the child horizontally */
+	align-items: center;     /* Center the child vertically */
+	height: 100px;           /* Arbitrary height for demonstration */
+	overflow-x: auto; /* Enable horizontal scrolling */
+	white-space: nowrap; /* Keep all circles in one line */
+}
+
+
+@keyframes colorChange {
+	0%, 100% {
+		color: gold;
+	}
+	50% {
+		color: yellow;
+	}
+}
+
+@keyframes borderChange {
+	0%, 100% {
+		border: 1px solid gold;
+	}
+	50% {
+		border: 1px solid yellow;
+	}
+}
+
+@keyframes borderChange2 {
+	0%, 100% {
+		border: 1px solid white;
+	}
+	25% {
+		border: 1px solid yellow;
+	}
+	50% {
+		border: 1px solid gold;
+	}
+	75% {
+		border: 1px solid yellow;
+	}
+}
+
+/* 定義動畫 */
+@keyframes borderGlowhChange {
+	0%, 100% {
+		border: 0.5px solid #FFFFFF;
+	}
+	25% {
+		border: 0.5px solid #FFFF00;
+	}
+	50% {
+		border: 0.5px solid #FFD700;
+	}
+	75% {
+		border: 0.5px solid #FFFF00;
+	}
+}
+
+.gold-border {
+	animation: borderGlowhChange 3s infinite;
+	transition: border 4s ease-in-out;
+}
+
+.yellow-border {
+	animation: borderChange2 1s infinite;
+	transition: border 1s ease-in-out;
+}
+
+.gradient-div-top {
+	position: fixed;
+	left:0;
+	top:0;
+	width: 100vw;
+	height: 12px;
+	background:  #FFD700;
+	transition: background 3s ease-in-out;
+	z-index: 301;
+}
+
+.gradient-div {
+	position: fixed;
+	left:0;
+	bottom:0;
+	width: 100vw;
+	height: 20px;
+	background: linear-gradient(transparent, #FFFF0088, #FFFF00cc,  #FFD700);
+	transition: background 3s ease-in-out;
+	z-index: 301;
+}
+
+.gradient-div-up {
+	position: fixed;
+	left:0;
+	top:12px;
+	width: 100vw;
+	height: 20px;
+	background: linear-gradient(#FFD700, #FFFF00cc, transparent);
+	transition: background 3s ease-in-out;
+	z-index: 301;
+}
+
+
+.info-cards {
+	display: flex;
+	flex-direction: column;
+	margin: 16px;
+}
+
+.formula{
+	color: #00FF00;
+	text-align: left;
+	margin-left: 16px;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.gold-text {
+	color: gold; /* Setting the color to gold */
+	font-weight: bold; /* Making the text bold */
+	filter: blur(0);
+	transition: filter 0.5s ease;
+	line-height: 20px;
+	animation: colorChange 3s infinite;
+	transition: color 3s ease-in-out;
+}
+
+.info-line {
+	height: 20px;
+	font-size: 14px;
+	font-weight:600;
+	line-height: 20px;
+	text-align: left;
+	display: block; /* Makes each span a block-level element */
+	margin: 24px; /* Adds a little space between each line, optional */
+}
+
+.warning-tape {
+	height: 102vh;
+	width: 16px;
+	background: repeating-linear-gradient(
+		-45deg,
+		yellow,
+		gold 3vh,  
+		black 3vh,
+		black 6vh
+	);
+	animation: moveSlant 15s linear infinite; 
+}
+
+.warning-tape2 {
+	height: 102vh;
+	width: 16px;
+	background: repeating-linear-gradient(
+		-45deg,
+		yellow,
+		gold 3vh,  
+		black 3vh,
+		black 6vh
+	);
+	animation: moveSlant2 15s linear infinite; 
+}
+
+@keyframes moveSlant {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 0 102vh;  
+	}
+}
+
+@keyframes moveSlant2 {
+	from {
+		background-position: 0 102vh;
+	}
+	to {
+		background-position: 0 0;  
+	}
+}
+
+
+
+/* <button class="pushable">
+  <span class="front">
+	Push me
+  </span>
+</button> */
+
+.pushable {
+	border: none;
+	border-radius: 80px;
+	padding: 0;
+	cursor: pointer;
+}
+.front {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 700;
+	font-size: 16px;
+	position: fixed;
+	width: 50vw;
+	height:56px;
+	min-width: 240px;
+	max-width: 320px;
+	margin:0;
+	animation: borderChange 1s infinite;
+	transition: border 1s ease-in-out;
+	border-radius: 80px;
+	background: linear-gradient(#FFFF00, #FFFF88, #FFFF00,  #FFD700);
+	color: black;
+	transform: translateY(-4px);
+}
+
+.front_evm {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 700;
+	font-size: 16px;
+	position: fixed;
+	width: 50vw;
+	height:56px;
+	min-width: 240px;
+	max-width: 320px;
+	margin:0;
+	animation: borderChange 1s infinite;
+	transition: border 1s ease-in-out;
+	border-radius: 80px;
+	background: black;
+	color: #cccccc;
+	transform: translateY(-4px);
+}
+.pushable:focus:not(:focus-visible) {
+	outline: none;
+}
+.front {
+	will-change: transform;
+	transition: transform 250ms;
+}
+.pushable:hover .front {
+	font-weight: 500;
+	font-size: 17px;
+	transform: translateY(-8px);
+	background: linear-gradient(#222200, #000000);
+	color: #ffff00;
+	border: 1px solid #FFFF00;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 0, 1));
+}
+.pushable:active .front {
+	font-weight: 500;
+	font-size: 17px;
+	transform: translateY(0px);
+	background: linear-gradient(#222222, #000000);
+	color: white;
+	border: 3px solid #FFFFFF;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 1));
+}
+.front_evm {
+	will-change: transform;
+	transition: transform 250ms;
+}
+.pushable:hover .front_evm {
+	font-weight: 500;
+	font-size: 17px;
+	transform: translateY(-8px);
+	background: linear-gradient(#222200, #000000);
+	color: #FFFFFF;
+	border: 1px solid #FFFFFF;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 1));
+}
+.pushable:active .front_evm {
+	font-weight: 500;
+	font-size: 17px;
+	transform: translateY(0px);
+	background: linear-gradient(#222222, #000000);
+	color: white;
+	border: 3px solid #FFFFFF;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 1));
+}
+
+
+/* Ripple Effect */
+.ripple {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.6);
+	transform: scale(0);
+	animation: ripple 0.5s ease-out;
+	pointer-events: none;
+	opacity: 0;
+}
+
+/* Ripple Animation */
+@keyframes ripple {
+	0% {
+		transform: scale(0);
+		opacity: 0.15;
+	}
+	100% {
+		transform: scale(100);
+		opacity: 0;
+	}
+}
+
+
+
+
+
+
+
+.defi {
+	position: absolute;
+	top: 170px; /* 確保在文字下方 */
+	left: 40px;
+	width: calc(100vw - 80px); /* 保留兩邊的間距 */
+	height: auto; /* 設定選擇條高度 */
+	display: flex; /* 使子項目排列成橫向 */
+	overflow-x: scroll; /* 允許水平滾動 */
+	overflow-y: hidden; /* 禁止垂直滾動 */
+	scroll-behavior: smooth; /* 平滑滾動效果 */
+	-ms-overflow-style: none; /* 隱藏 IE 和 Edge 滾動條 */
+	scrollbar-width: none; /* 隱藏 Firefox 滾動條 */
+}
+.defi2 {
+	position: absolute;
+	top: 388px; /* 確保在文字下方 */
+	left: 40px;
+	width: calc(100vw - 80px); /* 保留兩邊的間距 */
+	height: auto; /* 設定選擇條高度 */
+	display: flex; /* 使子項目排列成橫向 */
+	overflow-x: scroll; /* 允許水平滾動 */
+	overflow-y: hidden; /* 禁止垂直滾動 */
+	scroll-behavior: smooth; /* 平滑滾動效果 */
+	-ms-overflow-style: none; /* 隱藏 IE 和 Edge 滾動條 */
+	scrollbar-width: none; /* 隱藏 Firefox 滾動條 */
+}
+
+/* 隱藏滾動條 */
+.defi::-webkit-scrollbar
+,.defi2::-webkit-scrollbar{
+	display: none; /* 隱藏 Webkit 滾動條 */
+}
+
+.item-box {
+	min-width: auto; /* 每個選項的寬度 */
+	height: 168px; /* 每個選項的高度 */
+}
+.item {
+	margin:4px;
+	min-width: 68px; /* 每個選項的寬度 */
+	height: 68px; /* 每個選項的高度 */
+	margin-right: 16px; /* 項目之間的間距 */
+	border-radius: 68px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor:pointer;
+}
+.item-text{
+	margin:4px;
+	position:absolute;
+	top:78px;
+	width:68px;
+	font-size: 12px;
+	font-weight: 700;
+}
+.item-invest{
+	margin:4px;
+	position:absolute;
+	top:102px;
+	width:68px;
+	font-size: 10px;
+}
+.item-invest2{
+	margin:4px;
+	position:absolute;
+	top:122px;
+	width:68px;
+	font-size: 12px;
+}
+
