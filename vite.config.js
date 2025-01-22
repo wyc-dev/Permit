@@ -5,6 +5,6 @@ export default defineConfig({
 	assetsInclude: ['**/*.glb'],
 	plugins: [sveltekit()],
 	  ssr: {
-		noExternal: ['@ton/ton', 'tonweb']
+		noExternal: ['@ton/ton', 'tonweb', 'wagmi', '@rainbow-me/rainbowkit', 'ethers']
 	  }
 });

@@ -1,8 +1,9 @@
 <script>
-    import Background from "./components/background.mp4";
+    
+    // import Background from "./components/background.mp4";
     import Logout from './components/icons/logout.svelte';
-    import LOGO from './components/pages/components/Earth.svelte';
     import Dashboard from './components/pages/Dashboard.svelte';
+    import SmartWallet from './components/pages/SmartWallet.svelte';
     import { onMount, onDestroy } from "svelte";
     import { TonConnectUI } from "@tonconnect/ui";
     import { fade } from "svelte/transition";
@@ -18,16 +19,16 @@
     import TG_TON from "./components/icons/ton_tg.png";
     import Link from "./components/icons/link.mp4";
     import Bg from "./components/pages/components/assets/ton_invest_power_bg.mp4";
+    import coin from "./components/pages/components/assets/coin.mp4";
     
 
     let showModal = false; // 管理模态框可见性
     let modalTitle = "";
     let modalMessage = "";
     let inviter = "";
-    let userAgent;
     let videoElement;
     let unsubscribe; // Ensure this is properly scoped
-    let earth_opacity = 1;
+    let smart = false;
     
     $: mod_refer_address = $refer_address ? `${$refer_address.slice(0, 6)}...${$refer_address.slice(-6)}`: "undefined";
     
@@ -94,6 +95,7 @@
         modalTitle = "";
         modalMessage = ``;
         showModal = false;
+        smart = false;
     }
 
 
@@ -113,7 +115,41 @@
     }
 
 
-    
+    // function connect_EVM(){
+    //     // 檢查是否符合運行條件
+    //     if (window.Telegram.WebApp.initDataUnsafe.start_param) {
+    //         // alert("Please open a web browser to use the smart wallet.");
+    //         window.open("https://power-network.fyi/", "_blank");
+    //         return; // 停止後續執行
+    //     }
+    //     smart = true;
+    //     // alert("This IP is not whitelisted, this feature will be available to the public very soon.");
+    // }
+
+    function connect_EVM() {
+      // 檢查是否符合運行條件
+      if (window.Telegram.WebApp.initDataUnsafe.start_param) {
+        // Telegram 瀏覽器
+        window.open("https://power-network.fyi/", "_blank");
+        return; // 停止後續執行
+      }
+
+      // 檢測是否為社交媒體內置瀏覽器
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      const isFacebookApp = userAgent.includes("FBAN") || userAgent.includes("FBAV");
+      const isInstagramApp = userAgent.includes("Instagram");
+      const isTwitterApp = userAgent.includes("Twitter");
+
+      if (isFacebookApp || isInstagramApp || isTwitterApp) {
+        alert("Please open a web browser to use the smart wallet.");
+        return; // 停止後續執行
+      }
+
+      // 如果不符合條件，執行智能錢包初始化
+      smart = true;
+      // alert("This IP is not whitelisted, this feature will be available to the public very soon.");
+    }
 
     function connectWallet() {
         // 添加 Ripple 效果
@@ -124,12 +160,20 @@
         // const screenHeight = window.innerHeight;
 
         // 檢查是否符合運行條件
-        if (!window.Telegram.WebApp.initDataUnsafe.start_param) {
+        if (!window.Telegram.WebApp.initDataUnsafe.start_param && !smart) {
+            $tonConnectUI.disconnect().then(() => {
+                console.log("Disconnected successfully.");
+                main_raw_address.set(null); // 清空原始地址
+                main_address.set(null); // 清空转换后的地址
+            }).catch((e) => {
+                console.error("Disconnect failed:", e.message);
+            });
             modalTitle = "Browser Restricted";
             modalMessage = `Please use Telegram App to check status and claim airdrops.`;
             showModal = true;
             return; // 停止後續執行
         }
+        
 
         // 檢查是否已連接錢包
         if ($main_address || $tonConnectUI.wallet) {
@@ -137,6 +181,7 @@
             modalTitle = "Log Out Confirm";
             modalMessage = `Are you sure to log out?`;
             showModal = true;
+            smart = false;
         } else {
             $tonConnectUI.openModal().catch((e) => {
                 console.error("Open modal failed:", e.message);
@@ -149,13 +194,6 @@
             return;
         }
     }
-
-    // // // 檢查是否在 Telegram 瀏覽器中打開
-    // function checkTelegramWebApp() {
-    //         userAgent = navigator.userAgent ;
-    //         const tg = (/iPhone/i.test(userAgent) || /Android/i.test(userAgent)) && !/Windows/i.test(userAgent);
-    //         return tg;
-    // }
 
 
     
@@ -255,12 +293,30 @@
 <section in:fade={{ duration: 150, easing: cubicInOut }}>
 
             <div class="backdrop"></div>
-            <video bind:this={videoElement} class="video-background" autoplay loop muted playsinline preload="auto">
-            <source src={Background} type="video/mp4">
-            </video><div class="backdrop" style="background:#000000aa;"></div>
 
+    {#if smart}
 
-    {#if !$main_address}
+        <button on:click={()=>{smart=false;main_address.set(null);}} class="gold-border"
+            style="position:fixed; width:56px; height:56px; border-radius:56px; top:40px; right:5vw; z-index: 30;">
+            <Logout/>
+        </button>
+        <img src={Ball} alt="Ball" style="position:fixed; width:56px; height:56px; border-radius:56px; top:45px; right:5vw; z-index: 29;"/>
+        <SmartWallet/>
+        {#if !$main_address}
+            <button on:click={connectWallet}                    
+                    class="main_button pushable" style="bottom:32px;">
+                <span class="front">
+                    Bond with TON Wallet</span>
+            </button>
+        {:else}
+            <button disabled on:click={()=>{}}                    
+                    class="main_button pushable" style="bottom:32px;">
+                <span  disabled class="front">
+                    Bridge Coming Soon</span>
+            </button>
+        {/if}
+        
+    {:else if !$main_address}
 
             <div class="gradient-div-top"></div>
             <div class="gradient-div-up"></div>
@@ -274,7 +330,10 @@
             {/if}
     
             <div in:fade={{ duration: 500 }} style="height:150px;margin-top:56px;">
-                <LOGO {earth_opacity}/>
+                <!-- <LOGO {earth_opacity}/> -->
+                <video style=" position: absolute; height:150px; width:100vw; left:0; top:80px;" autoplay loop muted playsinline preload="auto">
+                    <source src={coin} type="video/mp4">
+                </video>
             </div>
    
 
@@ -284,17 +343,17 @@
                       transition: color 3s ease-in-out;"> ⚡ Power Network ⚡ </p>
         
         <p style="position:absolute; top:50px; z-index:101;color:#444444; left: 50%; width:100vw; min-width:240px; font-size:12px; font-weight: 700;
-        transform: translate(-50%, -50%); "> Alpha Version 2.0 </p>
+        transform: translate(-50%, -50%); "> Alpha Version 2.5</p>
     
             <div style="position: absolute; top: 345px; left: 50%; min-width:240px; 
                         width: 100vw; max-width: 280px; transform: translate(-50%, -50%); 
                         z-index: 101; "><br/><br/>
-                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:14px;">
-                    ⚡ Exclusive multi-phase airdrops</p>
-                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:14px;">
-                    ⚡ Reward-driven EVMs x TON DID</p>
-                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:14px;">
-                    ⚡ Amplifying the AUM of holdings</p>
+                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:20px;">
+                    Multichain Launch Pad with RWA</p>
+                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:20px;">
+                    Reward-driven Social-Fi with DID</p>
+                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:20px;">
+                    Exclusive Multiple Tokens Airdrop</p>
                 <div style="height:1vh;"/><p style="display: flex; flex-direction: column; text-align: center; justify-content: center;">
                     <a href="https://docs.power-network.fyi/" target="_blank" style="color: #888888; text-decoration: none;font-size: 14px; font-weight: 600;">
                         ( Instructions for Users )
@@ -302,9 +361,9 @@
                 </p>
             </div>
 
-            <button on:click={()=>{alert("This IP is not whitelisted, this feature will be available to the public very soon.”");}}                    
+            <button on:click={()=>{connect_EVM();}}                    
                     class="main_button pushable" style="top:480px;">
-                <span class="front_evm"  style="outline: 1px solid white;">
+                <span class="front_evm">
                     <video 
                         autoplay 
                         loop 
@@ -321,16 +380,17 @@
                     >
                             <source src={Bg} type="video/mp4" />
                     </video>
-                    Connect EVM Wallet</span>
+                    RWA Launchpad</span>
             </button>
+        
     
             <button on:click={connectWallet}                    
                     class="main_button pushable" style="top:560px;">
                 <span class="front">
                     {button_text}</span>
             </button>
-       
-    {:else}
+        
+    {:else if !smart}
         
             <button on:click={connectWallet} class="gold-border"
                 style="position:fixed; width:56px; height:56px; border-radius:56px; top:40px; right:32px; z-index: 30;">
@@ -339,6 +399,7 @@
         
             <img src={Ball} alt="Ball" style="position:fixed; width:56px; height:56px; border-radius:56px; top:45px; right:32px; z-index: 29;"/>
             <Dashboard />
+
         
     {/if}
     
@@ -389,10 +450,10 @@
         
     {/if}
 
-    <div class="gradient-div"></div>
 
 
-    <p style="position:fixed; top:750px; font-size:12px; width: calc(100vw - 80px);left:40px;">
-        Thanks for visiting with developer mode or other informal methods to enable TAPP. If you have any questions, please feel free to contact - @yc_bc_dev</p>
+
+    <!-- <p style="position:fixed; top:750px; font-size:12px; width: calc(100vw - 80px);left:40px;">
+        Thanks for visiting with developer mode or other informal methods to enable TAPP. If you have any questions, please feel free to contact - @yc_bc_dev</p> -->
 
 </section>

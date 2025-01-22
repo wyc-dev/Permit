@@ -1157,10 +1157,5 @@
 
         </div>
     
-    <div style="margin-bottom:68px;"> </div>
-
-        <p class="sub-text" style="margin-top:-60px;margin-bottom:40px">
-            Multi-chains DID coming soon...
-        </p>
 
 {/if}

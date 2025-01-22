@@ -9,7 +9,7 @@
 	width:100vw;
 	top: 0vh;
 	color: #1a2128;
-	background: #ffffff;
+	background: #000000;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -236,7 +236,7 @@ select, select:focus, select:hover, select:active {
   }
 
   .backdrop {
-	background :#111111;
+	background :#000000;
 	position: fixed; /* 或者 'fixed'，取决于您的布局需求 */
 	left: 50%;
 	bottom: 0;
