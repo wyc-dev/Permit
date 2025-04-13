@@ -1,12 +1,15 @@
 <script>
     import './styles.css';
     import { onMount } from "svelte";
+    // import { tonConnectUI, isClicked,
+    //     main_address,
+    //     main_raw_address} from './store.js';
     
     // 設置頁眉顏色函數
     function setHeaderColor() {
         if (window.TelegramWebviewProxy && typeof window.TelegramWebviewProxy.postEvent === 'function') {
             const headerColorData = JSON.stringify({
-                color: "#FFD700" // 設置頁眉為金色
+                color: "#000000" // 設置頁眉為金色
             });
             window.TelegramWebviewProxy.postEvent('web_app_set_header_color', headerColorData);
         } else {
@@ -18,7 +21,7 @@
     function setBackgroundColor() {
         if (window.TelegramWebviewProxy && typeof window.TelegramWebviewProxy.postEvent === 'function') {
             const backgroundColorData = JSON.stringify({
-                color: "#FFD700" // 設置背景為金色
+                color: "#000000" // 設置背景為金色
             });
             window.TelegramWebviewProxy.postEvent('web_app_set_background_color', backgroundColorData);
         } else {
@@ -51,10 +54,25 @@
     // 全域點擊事件
     function handleGlobalClick() {
         triggerHapticFeedback();
+        isClicked.set(true);
     }
 
     // 註冊與移除事件監聽器及設置顏色和展開
     onMount(() => {
+        // 檢查是否符合運行條件
+        if (!window.Telegram.WebApp.initDataUnsafe.start_param) {
+            // $tonConnectUI.disconnect().then(() => {
+            //     console.log("Disconnected successfully.");
+            //     main_raw_address.set(null); // 清空原始地址
+            //     main_address.set(null); // 清空转换后的地址
+            // }).catch((e) => {
+            //     console.error("Disconnect failed:", e.message);
+            // });
+            // modalTitle = "Browser Restricted";
+            // modalMessage = `Please use Telegram App to check status and claim airdrops.`;
+            // showModal = true;
+            return; // 停止後續執行
+        }
         // 設置頁眉和背景顏色
         setHeaderColor();
         setBackgroundColor();
@@ -62,17 +80,11 @@
         // 展開應用
         expandApp();
 
-        // 註冊點擊事件
-        window.addEventListener('click', handleGlobalClick);
-
-        // 返回清理函數
-        return () => {
-            window.removeEventListener('click', handleGlobalClick);
-        };
     });
+
 </script>
 
-<div class="app">
+<div class="app ">
     <main >
         <slot />
     </main>

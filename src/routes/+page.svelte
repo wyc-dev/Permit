@@ -1,203 +1,85 @@
 <script>
     
-    // import Background from "./components/background.mp4";
-    import Logout from './components/icons/logout.svelte';
-    import Dashboard from './components/pages/Dashboard.svelte';
     import SmartWallet from './components/pages/SmartWallet.svelte';
+    import Guide from "./components/pages/components/Guide.svelte";
+    import Permit from "./components/pages/components/assets/Permit_white.png";
+    import ID from "./components/pages/components/assets/DID.mp4";
+    // import earth from "./components/pages/components/assets/landing.mp4";
     import { onMount, onDestroy } from "svelte";
-    import { TonConnectUI } from "@tonconnect/ui";
+    // import { TonConnectUI } from "@tonconnect/ui";
     import { fade } from "svelte/transition";
     import { cubicInOut } from "svelte/easing";
     import { page } from '$app/stores';
-    import { tonConnectUI,
-            main_address,
-            main_raw_address,
-            refer_address,
-            TON_apiKey} from './store.js';
-    import Ball from "./components/icons/3d_ball.png";
-    import Unplug from "./components/icons/unplug.png";
-    import TG_TON from "./components/icons/ton_tg.png";
-    import Link from "./components/icons/link.mp4";
-    import Bg from "./components/pages/components/assets/ton_invest_power_bg.mp4";
-    import coin from "./components/pages/components/assets/coin.mp4";
+    import Translate from "./components/pages/components/token_op/tool_parts/Translate.svelte";
+    import Partners from "./components/pages/components/token_op/tool_parts/partners.svelte";
+    import { refer_address, lang,
+            main_address } from './store.js';
     
+      // 切換語言的函數
+      function toggleLanguage() {
+        lang.set($lang === "EN" ? "ZH" : "EN")
+      }
 
-    let showModal = false; // 管理模态框可见性
-    let modalTitle = "";
-    let modalMessage = "";
-    let inviter = "";
-    let videoElement;
-    let unsubscribe; // Ensure this is properly scoped
-    let smart = false;
-    
-    $: mod_refer_address = $refer_address ? `${$refer_address.slice(0, 6)}...${$refer_address.slice(-6)}`: "undefined";
-    
-    $: button_text = $main_address 
-        ? `${$main_address.slice(0, 6)}...${$main_address.slice(-6)}`
-        : "Connect TON Wallet";
+    let displayText = '';
+    let fullText = '';
+    let textAnimation;
 
-    $: modal_text = modalTitle == "Log Out Confirm"
-        ? "Log Out"
-        : modalTitle == "Only by Invitation"
-        ? "Verify Address" 
-        : "Open In Telegram";
+    // 監聽語言變化並觸發動畫
+    $: {
+        fullText = $lang === "EN" ? "Crypto is money" : "加密貨幣即是錢";
+        animateText();
+    }
 
-    async function checkAddress() {
-        try {
-            const response = await fetch(
-                `https://toncenter.com/api/v2/getWalletInformation?address=${inviter}&api_key=${$TON_apiKey}`
-            );
-            const data = await response.json();
-            if (data.ok) {
-                if (data.result.account_state === "uninitialized" || !data.result.account_state) {
-                    inviter = ""; 
-                    alert("This is not a valid inviter address, and has not even been initialized.");
-                    return;
-                } else {
-                    alert(`Inviter - ${inviter.slice(0, 4)}...${inviter.slice(-4)} has been applied.`);
-                    refer_address.set(inviter); 
-                    inviter = "";
-                }
+    function animateText() {
+        clearInterval(textAnimation);
+        displayText = '';
+        let index = 0;
+
+        textAnimation = setInterval(() => {
+            if (index < fullText.length) {
+                displayText += fullText[index];
+                index++;
             } else {
-                alert("This is not a valid inviter address.");
-                inviter = "";
-                return;
+                clearInterval(textAnimation);
             }
-        } catch (error) {
-            alert("This is not a valid inviter address.");
-            inviter = "";
-            return;
-        }
+        }, 100); // 每個字符間隔100毫秒
     }
+    
+    
 
-    function openModal() {
-            modalTitle = "Only by Invitation";
-            modalMessage = `Please enter or paste the inviter's address.`;
-            showModal = true;
-    }
+    let videoElement;
+    let smart = false;
+    let guide = false;
+    
+    // function identifyBlockchainAddress(address) {
+    //     // EVM 地址檢測 (0x 開頭 + 40 個十六進制字符)
+    //     const evmRegex = /^0x[a-fA-F0-9]{40}$/;
+    //     // TON 地址檢測 (通常是 48 或 66 個字符的 Base64Url 格式)
+    //     const tonRegex = /^(EQ|Ef|UQ|Uf|kQ)[A-Za-z0-9_-]{46,64}$/;
+    //     // Solana 地址檢測 (43-44 字符 Base58)
+    //     const solanaRegex = /^[1-9A-HJ-NP-Za-km-z]{43,44}$/;
 
-
-
-    async function closeModal() {
-        if (modalTitle == "Log Out Confirm"){
-            $tonConnectUI.disconnect().then(() => {
-                console.log("Disconnected successfully.");
-                main_raw_address.set(null); // 清空原始地址
-                main_address.set(null); // 清空转换后的地址
-            }).catch((e) => {
-                console.error("Disconnect failed:", e.message);
-            });
-        } else if (modalTitle == "Only by Invitation"){
-            await checkAddress();
-        } else if (modalTitle == "Browser Restricted"){
-            window.open('https://t.me/power_network_bot/connect?startapp=UQALUY7lNkc10kypNpKEA5GwfPLepBgGLc1LBJmbAF15VGea');
-        }
-        modalTitle = "";
-        modalMessage = ``;
-        showModal = false;
-        smart = false;
-    }
-
-
-    async function fetchBounceableAddressB64Url(originalAddress) {
-        const apiUrl = `https://tonapi.io/v2/address/${originalAddress}/parse?api_key=?api_key=${$TON_apiKey}`;
-        try {
-            const response = await fetch(apiUrl);
-            if (!response.ok) {
-                throw new Error('Failed to fetch data from API');
-            }
-            const data = await response.json();
-            return data.bounceable.b64url;
-        } catch (error) {
-            console.error('Error fetching or parsing data:', error);
-            return null;
-        }
-    }
-
-
-    // function connect_EVM(){
-    //     // 檢查是否符合運行條件
-    //     if (window.Telegram.WebApp.initDataUnsafe.start_param) {
-    //         // alert("Please open a web browser to use the smart wallet.");
-    //         window.open("https://power-network.fyi/", "_blank");
-    //         return; // 停止後續執行
+    //     if (evmRegex.test(address)) {
+    //         return "EVM";
+    //     } else if (tonRegex.test(address)) {
+    //         return "TON";
+    //     } else if (solanaRegex.test(address)) {
+    //         return "SOL";
+    //     } else {
+    //         return "Invalid";
     //     }
-    //     smart = true;
-    //     // alert("This IP is not whitelisted, this feature will be available to the public very soon.");
     // }
+    
 
     function connect_EVM() {
-      // 檢查是否符合運行條件
-      if (window.Telegram.WebApp.initDataUnsafe.start_param) {
-        // Telegram 瀏覽器
-        window.open("https://power-network.fyi/", "_blank");
-        return; // 停止後續執行
-      }
-
-      // 檢測是否為社交媒體內置瀏覽器
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-      const isFacebookApp = userAgent.includes("FBAN") || userAgent.includes("FBAV");
-      const isInstagramApp = userAgent.includes("Instagram");
-      const isTwitterApp = userAgent.includes("Twitter");
-
-      if (isFacebookApp || isInstagramApp || isTwitterApp) {
-        alert("Please open a web browser to use the smart wallet.");
-        return; // 停止後續執行
-      }
-
-      // 如果不符合條件，執行智能錢包初始化
       smart = true;
-      // alert("This IP is not whitelisted, this feature will be available to the public very soon.");
-    }
-
-    function connectWallet() {
-        // 添加 Ripple 效果
-        createRipple(event);
-
-        // // 獲取屏幕寬高
-        // const screenWidth = window.innerWidth;
-        // const screenHeight = window.innerHeight;
-
-        // 檢查是否符合運行條件
-        if (!window.Telegram.WebApp.initDataUnsafe.start_param && !smart) {
-            $tonConnectUI.disconnect().then(() => {
-                console.log("Disconnected successfully.");
-                main_raw_address.set(null); // 清空原始地址
-                main_address.set(null); // 清空转换后的地址
-            }).catch((e) => {
-                console.error("Disconnect failed:", e.message);
-            });
-            modalTitle = "Browser Restricted";
-            modalMessage = `Please use Telegram App to check status and claim airdrops.`;
-            showModal = true;
-            return; // 停止後續執行
-        }
-        
-
-        // 檢查是否已連接錢包
-        if ($main_address || $tonConnectUI.wallet) {
-            console.log("Wallet already connected, disconnecting...");
-            modalTitle = "Log Out Confirm";
-            modalMessage = `Are you sure to log out?`;
-            showModal = true;
-            smart = false;
-        } else {
-            $tonConnectUI.openModal().catch((e) => {
-                console.error("Open modal failed:", e.message);
-            });
-        }
-
-        // 如果沒有推薦地址，打開模態框
-        if (!refer_address) {
-            openModal();
-            return;
-        }
     }
 
 
     
     onMount(() => {
+
+        animateText();
 
         window.Telegram.WebApp.disableVerticalSwipes();
 
@@ -207,33 +89,10 @@
         } else {
             refer_address.set($page.url.searchParams.get('address'));
         }
-        
         if (videoElement) {
             videoElement.playbackRate = 0.5;
         }
-
-        // Initialize TonConnectUI with the manifest URL
-        if (!$tonConnectUI) {
-            tonConnectUI.set(new TonConnectUI({
-                manifestUrl: "https://power-network.fyi/tonconnect-manifest.json",
-            }));
-        }
-
-        // Subscribe to connection status changes
-        unsubscribe = $tonConnectUI.onStatusChange(
-            async (wallet) => {
-                if (wallet && wallet.account) {
-                    main_raw_address.set(wallet.account.address);
-                    main_address.set(await fetchBounceableAddressB64Url($main_raw_address));
-                } else {
-                    main_raw_address.set(null);
-                    main_address.set(null);
-                }
-            },
-            (e) => {
-                console.error("Error with wallet connection:", e.message);
-            }
-        );
+        
     });
 
     function createRipple(event) {
@@ -260,29 +119,27 @@
         }, 500);
     }
 
-    onDestroy(() => {
-        if (unsubscribe) unsubscribe();
-        if ($tonConnectUI) {
-            $tonConnectUI.disconnect().catch((e) => {
-                console.error("Error during cleanup:", e);
-            });
-        }
-    });
+    // onDestroy(() => {
+        // if (unsubscribe) unsubscribe();
+        // if ($tonConnectUI) {
+        //     $tonConnectUI.disconnect().catch((e) => {
+        //         console.error("Error during cleanup:", e);
+        //     });
+        // }
+    // });
 </script>
 
 
 
 <svelte:head>
-    <title>Power Network</title>
-    <meta property=’og:title’ content='⚡️🌐'/>
-    <meta property="og:description" content="🔍 On-chain activities status tracking 
-                                                🪪 DID network 🌐 Hold-to-Earn on TON 💎">
-    <meta property="og:icon" content="https://power-network.fyi/favcon.png"/>
-    <meta property="og:image" content="https://power-network.fyi/poster.png" />
-    <meta property="og:url" content="https://power-network.fyi/" />
+    <title>Permit</title>
+    <meta property=’og:title’ content='Permit'/>
+    <meta property="og:description" content="The RWA Payment Gateway">
+    <meta property="og:icon" content="https://permit.money/favcon.png"/>
+    <meta property="og:image" content="https://permit.money/poster.png" />
+    <meta property="og:url" content="https://permit.money/" />
     <meta property="og:type" content="website" />
-    <meta name="description" content="🔍 On-chain activities status tracking 
-                                        🪪 DID network 🌐 Hold-to-Earn on TON 💎" />
+    <meta name="description" content="The RWA Payment Gateway" />
 </svelte:head>
 
 
@@ -291,169 +148,160 @@
 
 
 <section in:fade={{ duration: 150, easing: cubicInOut }}>
+    
+
 
             <div class="backdrop"></div>
 
-    {#if smart}
+    
 
-        <button on:click={()=>{smart=false;main_address.set(null);}} class="gold-border"
-            style="position:fixed; width:56px; height:56px; border-radius:56px; top:40px; right:5vw; z-index: 30;">
-            <Logout/>
-        </button>
-        <img src={Ball} alt="Ball" style="position:fixed; width:56px; height:56px; border-radius:56px; top:45px; right:5vw; z-index: 29;"/>
-        <SmartWallet/>
-        {#if !$main_address}
-            <button on:click={connectWallet}                    
-                    class="main_button pushable" style="bottom:32px;">
-                <span class="front">
-                    Bond with TON Wallet</span>
+    {#if guide}
+
+            <div  transition:fade={{ duration: 100 }}>
+                <button on:click={()=>{guide = false;}}
+                    style="position:fixed; width:20vw; height:50px;border:none; top:00px; left:5vw; z-index: 10000; background: transparent;
+                           border:none;">
+                </button>
+                <Guide/>
+            </div>
+        
+    {:else if smart}
+
+            <button on:click={()=>{smart=false;main_address.set(null);}}
+                style="position:fixed; width:168px; height:50px;border:none; top:00px; left:0vw; z-index: 30; background: transparent;">
             </button>
-        {:else}
-            <button disabled on:click={()=>{}}                    
-                    class="main_button pushable" style="bottom:32px;">
-                <span  disabled class="front">
-                    Bridge Coming Soon</span>
-            </button>
-        {/if}
+
+            <img src={Permit} alt="Permit" style=" position: fixed; height:32px; width:auto; left:calc(5vw); top:16px;" />
+    
+            <p class="animated-text" style="position:fixed; top:28px; z-index:1;color:white; left: calc(5vw + 40px); width:auto; font-size:24px; font-weight: 700;
+                        transform: translateY(-50%); text-align: left;">
+                Permit <span style="font-size: 10px;opacity: 0.5; margin-left: 4px;">( Alpha )</span>
+            </p>
+             
+            <SmartWallet/><!-- on:click={connectWallet} -->
+    
         
     {:else if !$main_address}
 
-            <div class="gradient-div-top"></div>
-            <div class="gradient-div-up"></div>
+            <div class="header" style=" z-index:1000;">
+                    <!-- <video style=" position: fixed; height:32px; width:auto; left:calc(5vw); top:16px;" autoplay loop muted playsinline preload="auto">
+                        <source src={coin} type="video/mp4">
+                    </video> -->
+                <img src={Permit} alt="Permit" style=" position: fixed; height:32px; width:auto; left:calc(5vw); top:16px;" />
     
-            {#if $refer_address}
-                    <p style="position:absolute; top:8px; z-index:303;color:#000000; left: 50%; width:100vw; min-width:240px; font-size:12px;
-                    transform: translate(-50%, -50%);font-weight: 700;"> Invited by address : {mod_refer_address}</p>
-            {:else}
-                    <p style="position:absolute; top:8px; z-index:303;color:#000000; left: 50%; width:100vw; min-width:240px; font-size:12px;
-                    transform: translate(-50%, -50%);font-weight: 700;"> Requires invitation to join the alpha. </p>
-            {/if}
-    
-            <div in:fade={{ duration: 500 }} style="height:150px;margin-top:56px;">
-                <!-- <LOGO {earth_opacity}/> -->
-                <video style=" position: absolute; height:150px; width:100vw; left:0; top:80px;" autoplay loop muted playsinline preload="auto">
-                    <source src={coin} type="video/mp4">
-                </video>
-            </div>
-   
-
-        
-            <p style="position:absolute; top:260px; z-index:101;color:gold; left: 50%; width:100vw; min-width:240px; font-size:20px; font-weight: 700;
-            transform: translate(-50%, -50%); animation: colorChange 3s infinite;
-                      transition: color 3s ease-in-out;"> ⚡ Power Network ⚡ </p>
-        
-        <p style="position:absolute; top:50px; z-index:101;color:#444444; left: 50%; width:100vw; min-width:240px; font-size:12px; font-weight: 700;
-        transform: translate(-50%, -50%); "> Alpha Version 2.5</p>
-    
-            <div style="position: absolute; top: 345px; left: 50%; min-width:240px; 
-                        width: 100vw; max-width: 280px; transform: translate(-50%, -50%); 
-                        z-index: 101; "><br/><br/>
-                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:20px;">
-                    Multichain Launch Pad with RWA</p>
-                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:20px;">
-                    Reward-driven Social-Fi with DID</p>
-                <div style="height:1vh;"/><p style="display: flex;flex-direction: column; text-align: left; justify-content: center; font-size: 14px; font-weight: 600;margin-left:20px;">
-                    Exclusive Multiple Tokens Airdrop</p>
-                <div style="height:1vh;"/><p style="display: flex; flex-direction: column; text-align: center; justify-content: center;">
-                    <a href="https://docs.power-network.fyi/" target="_blank" style="color: #888888; text-decoration: none;font-size: 14px; font-weight: 600;">
-                        ( Instructions for Users )
-                    </a>
+                <p class="animated-text" style="position:fixed; top:28px; z-index:1;color:white; left: calc(5vw + 40px); width:auto; font-size:24px; font-weight: 700;
+                            transform: translateY(-50%); text-align: left;">
+                    Permit <span style="font-size: 10px;opacity: 0.5; margin-left: 4px;">( Alpha )</span>
                 </p>
+    
+                {#if !smart}
+                    <button on:click={toggleLanguage} 
+                        style=" position:absolute; top:8px; right:calc(8vw); margin-right:-10px; z-index: 1002; background: transparent; color: white; padding: 4px 8px; border:4px solid transparent; font-size: 16px; cursor: pointer;">
+                        <Translate/>
+                    </button>
+                {/if}
             </div>
-
-            <button on:click={()=>{connect_EVM();}}                    
-                    class="main_button pushable" style="top:480px;">
-                <span class="front_evm">
-                    <video 
+    
+            <a transition:fade={{ duration: 150 }} on:click={()=>{guide = true;}}
+                style="color: #aaaaaa; font-size: 14px; font-weight: 600; position: fixed; top:380px; width:100vw; text-decoration: underline; cursor:pointer;">
+                {$lang === "ZH" ? "免手續費鏈上 RWA 支付獎勵系統" : "Gasless RWA Pay-Fi System"}
+            </a>
+    
+              <!-- <video
+                autoplay 
+                loop 
+                muted 
+                playsinline transition:blur={{ duration: 300 }} 
+                style="
+                    position: fixed; 
+                    top: 220px;
+                    left: calc(50% + 24px);
+                    transform: translate(-50%, -50%);
+                    width:180vw;
+                    max-width: 800px; 
+                    height: auto; 
+                    object-fit: cover;
+                    border-left: 0px solid;
+                    border-right: 0px solid;
+                    border-radius: 16px; 
+                    overflow: none;
+                    opacity: 1;
+                    z-index: -1;">
+                <source src={earth} transition:blur={{ durFation: 300 }}  type="video/mp4" />
+              </video> -->
+    
+              <button class="main_button button-11 gold-border" 
+                  on:click={()=>{connect_EVM();}}   transition:fade={{ duration: 150 }}
+                  style="position: fixed; top:440px;">
+                <div class="button-11__content " style="filter: drop-shadow(0 0 2px #FFFFFF);">
+                      <video 
                         autoplay 
                         loop 
                         muted 
                         playsinline 
                         style="
-                            position: absolute; 
-                            width: 100%; 
-                            height: 100%; 
-                            object-fit: cover;
-                            border-radius: 80px; 
-                            z-index:-1;
-                        "
-                    >
-                            <source src={Bg} type="video/mp4" />
-                    </video>
-                    RWA Launchpad</span>
-            </button>
-        
-    
-            <button on:click={connectWallet}                    
-                    class="main_button pushable" style="top:560px;">
-                <span class="front">
-                    {button_text}</span>
-            </button>
-        
-    {:else if !smart}
-        
-            <button on:click={connectWallet} class="gold-border"
-                style="position:fixed; width:56px; height:56px; border-radius:56px; top:40px; right:32px; z-index: 30;">
-                <Logout/>
-            </button>
-        
-            <img src={Ball} alt="Ball" style="position:fixed; width:56px; height:56px; border-radius:56px; top:45px; right:32px; z-index: 29;"/>
-            <Dashboard />
+                          position: fixed; 
+                          width: 100%; 
+                          max-height: 100%; 
+                          object-fit: cover;
+                          border-radius: 8px; 
+                          margin-top:-2px;
+                          opacity:1;
+                          z-index:-1;">
+                        <source src={ID} type="video/mp4" />
+                      </video>
+                    <p style="position:absolute;white-space: nowrap;top:4px; width:100%;font-size: 16px; font-weight: 600;">
+                        {$lang === "ZH" ? "您的 RWA 庫存" : "RWA Dashboard"}</p>
+                </div>
+              </button>
 
-        
-    {/if}
-    
+                <p transition:fade={{ duration: 150 }} style="position: fixed; top:180px; left:0; width:100vw; font-weight: 700; font-size: 28px ;background: linear-gradient(to bottom, #FFFFFF, #FFFFFF, #FFFF00, #FFD700, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 16px rgba(0, 0, 0, 1));">
+                    {displayText}</p>
+
+                <Partners/>
 
 
-
-    {#if showModal}
-
-        <div transition:fade={{ duration: 150, easing: cubicInOut }} class="gradient-div-top" style="z-index:2000;"></div>
-        <div transition:fade={{ duration: 150, easing: cubicInOut }} class="gradient-div-up" style="z-index:2000;"></div>
-        
-            <div class="overlay" transition:fade={{ duration: 100, easing: cubicInOut }} on:click={()=>{showModal = false;}}></div>
-            <div class="modal" transition:fade={{ duration: 500, easing: cubicInOut }}>
-                <p
-                    style="position:absolute; top:8px;color:gold; font-size:16px; font-weight:700;"
-                >
-                    {modalTitle}
-                </p>
-                <p
-                    style="position:absolute; top: 88px; transform: translate(0%, -50%); width:80%;font-size:14px;"
-                >
-                    {modalMessage}
-                </p>
-
-                {#if modalTitle == "Only by Invitation"}
-                        <input bind:value={inviter} style="position:absolute; top: 160px; transform: translate(0%, -50%); width:75%;font-size:16px; border:1px solid white"/>
-                {:else if modalTitle == "Log Out Confirm"}
-                        <img src={Unplug} alt="Unplug" style="position:absolute; top: 80px;width:100%;"/>
-                {:else if modalTitle == "Browser Restricted"}
-                        <img src={TG_TON} alt="TG_TON" style="position:fixed; top: 136px;width:auto; height:60px;z-index:3;"/>
-                        <video style="position:fixed; top: 124px;width:auto; height:80px;" 
-                            autoplay loop muted playsinline preload="auto">
-                            <source src={Link} type="video/mp4">
-                        </video>
+                                                        
+            <div transition:fade={{ duration: 100 }} style="z-index:3000; position: absolute; top: 540px; left: 0vw; width: 100vw; color: #aaaaaa; background-color: #111111; font-size: 12px; font-weight: 400; text-align: left; line-height: 1.5; opacity: 1;border-top: 1px solid #333333;border-bottom: 1px solid #333333;">
+                {#if $lang === "EN"}
+                    <h3 style="margin:20px;font-size: 12px;text-align: center;"><strong>By using Permit, you agree to this disclaimer:</strong></h3>
+                    <p style="margin:20px; font-size: 12px; text-align: left; ">Permit is a decentralized launchpad and wallet plug-in designed for managing Real World Assets (RWAs) on inter-blockchain network. Assets such as "TOKEN" and others are facilitated through its plugins and smart contracts, including the Token RWA Bridging Protocol. Please read the following carefully:</p>
+                <ol style="margin-bottom: 80px;margin-right:10vw;">
+                    <li><strong>Asset Nature</strong>: Permit manages a variety of assets (e.g., TOKEN), some of which may be pegged to cryptocurrencies (such as USDC). Their value is determined by decentralized mechanisms, related cryptographic assets, and market factors, rather than fiat currency reserves.</li>
+                        <li><strong>Asset Custody</strong>: Permit Foundation itself does not directly hold or control user assets. Users may opt to use third-party services (e.g., Coinbase Wallet) to manage their wallets and private keys. The security and management of such assets are the sole responsibility of the user and the respective third-party service provider, and the Permit Foundation bears no liability in this regard.</li>
+                        <li><strong>Risks of Use</strong>: Users acknowledge and accept the risks associated with using Permit, including but not limited to smart contract vulnerabilities, network attacks, and asset value fluctuations.</li>
+                        <li><strong>No Profit or Return Guarantee</strong>: Permit does not promise any profits or returns. Users must independently assess all risks associated with its use.</li>
+                        <li><strong>Regulatory Compliance</strong>: Users are solely responsible for ensuring that their use of Permit Foundation complies with all applicable laws and regulations in their jurisdiction. The Permit Foundation may cooperate with relevant regulatory authorities as required by law, but it assumes no responsibility for the legal compliance of users.</li>
+                        <li><strong>No Warranty and Limitation of Liability</strong>: Permit is provided "as is," and to the fullest extent permitted by applicable law, the Permit Foundation disclaims liability for any losses.</li>
+                        <li><strong>No Collection of User Data</strong>: Permit Foundation does not collect, store, or process any personally identifiable information or user data. Any data generated through interactions with the blockchain network or third-party services (e.g., Coinbase Wallet) remains outside the control and responsibility of the Permit Foundation. Users acknowledge that they bear sole responsibility for managing and protecting their own data privacy in connection with their use of the platform and any associated services.</li>
+                    </ol>
+                    <a href="https://t.me/permit_money" target="_blank"  transition:fade={{ duration: 150 }}
+                       style=" position: absolute; color: #888888; font-size: 12px; font-weight: 600;
+                              bottom: 16px; margin-bottom: 16px; display: block; text-align: center; width:100vw; left:0;">
+                        © 2025 Permit Foundation
+                    </a>
+                {:else}
+                    <!-- Placeholder for non-English version if needed -->
+                    <h3 style="margin-top:20px;text-align: center;"><strong>使用 Permit 即表示同意平台免責聲明:</strong></h3>
+                    <p style="margin:20px; font-size: 12px; text-align: left;">Permit 是一個去中心化實物資產（RWA）的啟動平台與錢包插件，於多條區塊鏈網絡上並行。如“TOKEN”等資產由其插件管理。請仔細閱讀：</p>
+                    <ol style="margin-bottom: 80px;margin-right:10vw;">
+                        <li><strong>資產性質</strong>：Permit 管理多種資產（例如 TOKEN），其中部分可能與加密貨幣（如 USDC）掛鉤，其價值由去中心化機制、相關加密資產及市場因素決定，而非依賴法定貨幣儲備。</li>
+                        <li><strong>資產托管</strong>：Permit 基金會不直接持有或控制用戶資產。用戶可能選擇使用第三方服務（例如 Coinbase Wallet）來管理其錢包及私鑰，相關資產的安全性和管理責任由用戶與該第三方服務提供者自行承擔，Permit 基金會對此不承擔責任。</li>
+                        <li><strong>風險</strong>：用戶認知並接受使用 Permit 所涉及的風險，包括但不限於智能合約漏洞、網絡攻擊及資產價值波動。</li>
+                        <li><strong>無收益保證</strong>：Permit 不承諾任何收益或回報，用戶須自行評估與使用相關的所有風險。</li>
+                        <li><strong>合規性</strong>：用戶有責任確保其使用 Permit 平台符合適用法律法規。Permit 基金會可能應法律要求與相關監管機構合作，但不對用戶的法律合規性承擔責任。</li>
+                        <li><strong>無擔保</strong>：Permit 按「現狀」提供，在適用法律允許的最大範圍內，Permit 基金會不對任何損失承擔責任。</li>
+                        <li><strong>不記錄用戶數據</strong>：Permit 基金會不會收集、儲存或處理任何個人身份信息或用戶數據。通過區塊鏈網絡或第三方服務（例如 Coinbase Wallet）產生的任何數據，均不在 Permit 基金會的控制或責任範圍內。用戶確認，其在使用平台及相關服務時，須自行承擔管理和保護其數據隱私的全部責任。</li>
+                    </ol>
+                    <a href="https://t.me/permit_money" target="_blank"  transition:fade={{ duration: 150 }}
+                       style=" position: absolute; color: #888888; font-size: 12px; font-weight: 600;
+                              bottom: 16px; margin-bottom: 16px; display: block; text-align: center; width:100vw; left:0;">
+                        © 2025 Permit Foundation
+                    </a>
                 {/if}
-                
-                <button class="gold-border pushable"
-                    on:click={() => {
-                        closeModal();
-                    }}
-                    style="position:absolute; width:240px; height:56px; bottom:8px;"
-                >
-                    <span class="front" style="position:absolute; width:240px;">{modal_text}</span>
-                </button>
             </div>
-
-        <div transition:fade={{ duration: 150, easing: cubicInOut }} class="gradient-div" style="z-index:2000;"></div>
+            
         
     {/if}
-
-
-
-
-    <!-- <p style="position:fixed; top:750px; font-size:12px; width: calc(100vw - 80px);left:40px;">
-        Thanks for visiting with developer mode or other informal methods to enable TAPP. If you have any questions, please feel free to contact - @yc_bc_dev</p> -->
 
 </section>

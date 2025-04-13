@@ -1,6 +1,7 @@
 :root {
 
-	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-family: "Tomorrow", sans-serif;
+	line-height: 1.5;
 	font-weight: 500;
 	/* color: rgba(256, 256, 256, 0.8); */
 	margin: 0;
@@ -24,7 +25,7 @@
 
 
 .sub-text {
-	color: gold;
+	color:#FFD7EE;
 	text-align: left;
 	margin-left: 16px;
 	line-height: 20px;
@@ -50,7 +51,7 @@ p, th, td, placeholder,a, span, h3, button {
 	font-weight: 500;
 	color: #ffffff;
 	text-align: center;
-	font-size: 16px;
+	font-size: 14px;
 	font-style: normal;
 	margin: 5px 0;
 	line-height: 1.5;
@@ -95,19 +96,17 @@ input {
 	font-size: 16px;
 	color: #ffffff;
 	margin: 0; /* 使用 '0' 代替 'none' 來設置外邊距為零 */
-	border: 1px solid #ffffff00;
+	border: 1.5px solid #ffffff00;
 	border-radius: 16px;
-
 	outline: none; /* 移除默認的聚焦框 */
-	height: 32px;
 	background: #ffffff11; /* 半透明背景色 */
 }
 
 
 input:hover, input:focus, input:active{
-	box-shadow: 0 0 8px 1px gold;
+	/* box-shadow: 0 0 8px 1.5px#FFD7EE; */
 	outline: none;
-	background:#000000aa;
+	background:#00000011;
 }
 
 input::placeholder {
@@ -128,13 +127,14 @@ input::placeholder {
 
 
 
-.header_small {
-	position: absolute;
-	top: 66px;
-	color: white;
+.header {
+	position: fixed;
+	top: 0;
+	background: transparent;
 	font-size: 14px;
 	font-weight: 500;
-	width: 100%;
+	height:60px;
+	width: 100vw;
 }
 
 #footer{
@@ -155,7 +155,7 @@ button, select{
 	cursor:pointer;
 	background: #00000088;
 	text-align: center; text-align-last: center;
-	border: 1px solid gold;
+	border: 1.5px solid#FFD7EE;
 	border-radius: 16px;
 	outline: none;
 	display: flex;
@@ -169,17 +169,17 @@ button, select{
 }
 
 .select{
-	border: 1px solid gold;
+	border: 1.5px solid#FFD7EE;
 }
 .select:hover{
-	border: 1px solid #FFFFFF;
+	border: 1.5px solid #FFFFFF;
 }
 
 button:active, button:hover, button:focus,
 select:active, select:hover, select:focus
 {
 	font-family: "Tomorrow", sans-serif;line-height: 1.5;
-	border: 1px solid #ffffff;
+	border: 1.5px solid #ffffff;
 	background: transparent;
 	color: #ffffff;
 	font-weight: 600;
@@ -211,10 +211,23 @@ button:disabled{
 	min-width: 240px;
 	max-width: 320px;
 	margin:0;
-	bottom:4vh;
 	transform: translate(-50%);
 	animation: borderChange 3s infinite;
 	transition: border 3s ease-in-out;
+}
+
+.main_button_tx{
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 700;
+	font-size: 16px;
+	position: fixed;
+	left: 50%;
+	width: 50vw;
+	height:56px;
+	min-width: 240px;
+	max-width: 320px;
+	margin:0;
+	transform: translate(-50%);
 }
 
 select, select:focus, select:hover, select:active {
@@ -274,18 +287,18 @@ select, select:focus, select:hover, select:active {
 
 .custom-checkbox .checkmark {
 	position: absolute;
-	top: 2px;
+	top: 1.5px;
 	left: 0;
 	height: 14px;
 	width: 14px;
 	background-color: #ffffff44; /* 设置复选框背景颜色 */
-	border: 1px solid gold;
+	border: 1.5px solid#FFD7EE;
 	border-radius: 4px;
 }
 
 .custom-checkbox input:checked + .checkmark {
-	background-color: gold; /* 选中时保持相同背景颜色 */
-	border: 1px solid #ffffff;
+	background-color:#FFD7EE; /* 选中时保持相同背景颜色 */
+	border: 1.5px solid #ffffff;
 }
 
 /* 复选框标记（勾选）的样式 */
@@ -315,7 +328,7 @@ select, select:focus, select:hover, select:active {
 	min-width: 240px;
 	max-width: 320px;
 	padding: 24px;
-	border: 1px solid gold;
+	border: 1.5px solid#FFD7EE;
 	border-radius: 28px;
 	background-color: black;
 	z-index: 1000;
@@ -354,7 +367,7 @@ select, select:focus, select:hover, select:active {
 	filter: blur(8px);
 	font-weight: bold; /* Making the text bold */
 	font-size: 20px;
-	color: yellow;
+	color:#FFFFEE;
 	transition: filter 0.5s ease;
 	line-height: 16px;
 	height: 16px;
@@ -404,53 +417,121 @@ select, select:focus, select:hover, select:active {
 	white-space: nowrap; /* Keep all circles in one line */
 }
 
+@keyframes rgbGamingEffect {
+	0% { color: hsl(0, 100%, 50%); }   /* 紅 */
+	16% { color: hsl(30, 100%, 50%); }  /* 橙 */
+	33% { color: hsl(60, 100%, 50%); }  /* 黃 */
+	50% { color: hsl(120, 100%, 50%); } /* 綠 */
+	66% { color: hsl(240, 100%, 50%); } /* 藍 */
+	83% { color: hsl(280, 100%, 50%); } /* 紫 */
+	100% { color: hsl(0, 100%, 50%); }  /* 回到紅 */
+}
+
+@keyframes rgbGamingEffectbor {
+	0% {   border: 1.5px solid hsl(0, 100%, 68%); }   /* 紅 */
+	16% {  border: 1.5px solid  hsl(30, 100%, 68%); }  /* 橙 */
+	33% {  border: 1.5px solid hsl(60, 100%, 68%); }  /* 黃 */
+	50% {  border: 1.5px solid  hsl(120, 100%, 68%); } /* 綠 */
+	66% {  border: 1.5px solid  hsl(240, 100%, 68%); } /* 藍 */
+	83% {  border: 1.5px solid  hsl(280, 100%, 68%); } /* 紫 */
+	100% { border: 1.5px solid  hsl(0, 100%, 68%); }  /* 回到紅 */
+}
+
+@keyframes rgbGamingEffectfill {
+	0%, 100% {   fill:   #FFFF00; }   
+	50% {  fill:  #FFD700; }  }
+
+@keyframes yellowBorder {
+  0%, 100% { border-color: #FFFF88; }
+  50% { border-color: #FFD788; }
+}
+
+/* @keyframes rgbGamingEffectfill {
+	0% {   fill:   hsl(0, 100%, 68%); }  
+	16% {  fill:   hsl(30, 100%, 68%); } 
+	33% {  fill:   hsl(60, 100%, 68%); } 
+	50% {  fill:   hsl(120, 100%, 68%); } 
+	66% {  fill:   hsl(240, 100%, 68%); } 
+	83% {  fill:   hsl(280, 100%, 68%); } 
+	100% { fill:   hsl(0, 100%, 68%); } 
+} */
+
+/* 添加到想要變色的元素 */
+.rgb-text {
+	animation: rgbGamingEffect 3s infinite linear;
+}
+
+.rgb-fill {
+	animation: rgbGamingEffectfill 3s infinite linear;
+}
+
+.Y-border {
+	animation: yellowBorder 3s infinite linear;
+}
+
+.rgb-border {
+	animation: rgbGamingEffectbor 3s infinite linear, rgbGamingEffect 3s infinite linear;
+}
+
+.gold-fill {
+	animation: rgbGamingEffectfill 3s infinite linear;
+}
 
 @keyframes colorChange {
 	0%, 100% {
-		color: gold;
+		color: #FFF9EE;
 	}
 	50% {
-		color: yellow;
+		color: #FFFFEE;
+	}
+}
+
+@keyframes colorChange2 {
+	0%, 100% {
+		color: #FFD700;
+	}
+	50% {
+		color: #FFFF00;
 	}
 }
 
 @keyframes borderChange {
 	0%, 100% {
-		border: 1px solid gold;
+		border: 1.5px solid #FFD7EE;
 	}
 	50% {
-		border: 1px solid yellow;
+		border: 1.5px solid #FFFFEE;
 	}
 }
 
 @keyframes borderChange2 {
 	0%, 100% {
-		border: 1px solid white;
+		border: 1.5px solid white;
 	}
 	25% {
-		border: 1px solid yellow;
+		border: 1.5px solid#FFFFEE;
 	}
 	50% {
-		border: 1px solid gold;
+		border: 1.5px solid#FFD7EE;
 	}
 	75% {
-		border: 1px solid yellow;
+		border: 1.5px solid#FFFFEE;
 	}
 }
 
 /* 定義動畫 */
 @keyframes borderGlowhChange {
 	0%, 100% {
-		border: 0.5px solid #FFFFFF;
+		border: 1.5px solid #FFFFFF;
 	}
 	25% {
-		border: 0.5px solid #FFFF00;
+		border: 1.5px solid #FFFFCC;
 	}
 	50% {
-		border: 0.5px solid #FFD700;
+		border: 1.5px solid #FFD7CC;
 	}
 	75% {
-		border: 0.5px solid #FFFF00;
+		border: 1.5px solid #FFFFCC;
 	}
 }
 
@@ -469,7 +550,7 @@ select, select:focus, select:hover, select:active {
 	left:0;
 	top:0;
 	width: 100vw;
-	height: 12px;
+	height: 11.5px;
 	background:  #FFD700;
 	transition: background 3s ease-in-out;
 	z-index: 301;
@@ -489,7 +570,7 @@ select, select:focus, select:hover, select:active {
 .gradient-div-up {
 	position: fixed;
 	left:0;
-	top:12px;
+	top:11.5px;
 	width: 100vw;
 	height: 20px;
 	background: linear-gradient(#FFD700, #FFFF00cc, transparent);
@@ -513,14 +594,43 @@ select, select:focus, select:hover, select:active {
 	font-weight: 500;
 }
 
+.animated-text {
+	position: absolute;
+	top: 260px;
+	z-index: 101;
+	left: 50%;
+	width: 100vw;
+	min-width: 240px;
+	font-size: 20px;
+	font-weight: 700;
+	transform: translate(-50%, -50%);
+	transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+	animation: colorChange 3s infinite;
+}
+
+.animated-text2 {
+	position: absolute;
+	top: 260px;
+	z-index: 101;
+	left: 50%;
+	width: 100vw;
+	min-width: 240px;
+	font-size: 20px;
+	font-weight: 700;
+	transform: translate(-50%, -50%);
+	transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+	animation: colorChange2 3s infinite;
+}
+
 .gold-text {
-	color: gold; /* Setting the color to gold */
-	font-weight: bold; /* Making the text bold */
+	color: #FFFFFF;
+	font-weight: bold;
 	filter: blur(0);
-	transition: filter 0.5s ease;
 	line-height: 20px;
 	animation: colorChange 3s infinite;
-	transition: color 3s ease-in-out;
+	transition: filter 0.5s ease, color 3s ease-in-out, transform 0.5s ease-in-out;
+	display: inline-block;
+	transform: translateX(var(--shift));
 }
 
 .info-line {
@@ -625,9 +735,28 @@ select, select:focus, select:hover, select:active {
 	min-width: 240px;
 	max-width: 320px;
 	margin:0;
-	animation: borderChange 1s infinite;
+	animation: rgbGamingEffectbor 3s infinite linear, rgbGamingEffect 3s infinite linear;
 	transition: border 1s ease-in-out;
 	border-radius: 80px;
+	background: black;
+	transform: translateY(-4px);
+}
+
+.front_tx {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "Tomorrow", sans-serif;line-height: 1.5;
+	font-weight: 700;
+	font-size: 16px;
+	position: fixed;
+	width: 50vw;
+	height:56px;
+	min-width: 240px;
+	max-width: 320px;
+	margin:0;
+	border-radius: 80px;
+	transition: border 1s ease-in-out;
 	background: black;
 	color: #cccccc;
 	transform: translateY(-4px);
@@ -644,11 +773,29 @@ select, select:focus, select:hover, select:active {
 	font-size: 17px;
 	transform: translateY(-8px);
 	background: linear-gradient(#222200, #000000);
-	color: #ffff00;
-	border: 1px solid #FFFF00;
+	color: #ffffFF;
+	border: 1.5px solid #FFFFFF;
 	filter: drop-shadow(0 0 4px rgba(255, 255, 0, 1));
 }
 .pushable:active .front {
+	font-weight: 500;
+	font-size: 17px;
+	transform: translateY(0px);
+	background: linear-gradient(#222222, #000000);
+	color: white;
+	border: 3px solid #FFFFFF;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 1));
+}
+.pushable:hover .front_tx {
+	font-weight: 500;
+	font-size: 17px;
+	transform: translateY(-8px);
+	background: linear-gradient(#222222, #000000);
+	color: white;
+	border: 3px solid #FFFFFF;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 1));
+}
+.pushable:active .front_tx {
 	font-weight: 500;
 	font-size: 17px;
 	transform: translateY(0px);
@@ -661,16 +808,38 @@ select, select:focus, select:hover, select:active {
 	will-change: transform;
 	transition: transform 250ms;
 }
+.front_tx {
+	will-change: transform;
+	transition: transform 250ms;
+}
 .pushable:hover .front_evm {
 	font-weight: 500;
 	font-size: 17px;
 	transform: translateY(-8px);
 	background: linear-gradient(#222200, #000000);
 	color: #FFFFFF;
-	border: 1px solid #FFFFFF;
+	border: 1.5px solid #FFFFFF;
 	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 1));
 }
 .pushable:active .front_evm {
+	font-weight: 500;
+	font-size: 17px;
+	transform: translateY(0px);
+	background: linear-gradient(#222222, #000000);
+	color: white;
+	border: 3px solid #FFFFFF;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 1));
+}
+.pushable:hover .front_tx {
+	font-weight: 500;
+	font-size: 17px;
+	transform: translateY(-8px);
+	background: linear-gradient(#222200, #000000);
+	color: #FFFFFF;
+	border: 1.5px solid #FFFFFF;
+	filter: drop-shadow(0 0 4px rgba(255, 255, 255, 1));
+}
+.pushable:active .front_tx {
 	font-weight: 500;
 	font-size: 17px;
 	transform: translateY(0px);
@@ -765,21 +934,134 @@ select, select:focus, select:hover, select:active {
 	position:absolute;
 	top:78px;
 	width:68px;
-	font-size: 12px;
+	font-size: 11.5px;
 	font-weight: 700;
 }
 .item-invest{
 	margin:4px;
 	position:absolute;
-	top:102px;
+	top:101.5px;
 	width:68px;
 	font-size: 10px;
 }
 .item-invest2{
 	margin:4px;
 	position:absolute;
-	top:122px;
+	top:121.5px;
 	width:68px;
-	font-size: 12px;
+	font-size: 11.5px;
 }
 
+
+
+
+
+
+
+div::-webkit-scrollbar {
+  display: none; /* 隐藏滚动条 */
+}
+
+
+.number-display {
+	font-feature-settings: "tnum"; /* 🔥 固定數字寬度 */
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.5px; /* 避免字元變動導致位移 */
+	white-space: nowrap; /* 防止斷行變形 */
+	will-change: contents; /* 告訴瀏覽器這部分的內容會頻繁變更 */
+}
+
+
+
+  /* 限制 `div` 的寬度，不影響上下組件 */
+  .image-container {
+	  width: 90vw;  /* 限制寬度 */
+	  max-width: 90vw;
+	  overflow-x: auto; /* 允許橫向滾動 */
+	  white-space: nowrap; /* 防止內容自動換行 */
+  }
+
+  /* 讓內部內容可以超出 `80vw`，但不影響外部排版 */
+  .scroll-container {
+	  width: max-content; /* 允許內容超出 `div`，讓 `scroll` 發生 */
+  }
+
+  /* 圖片預設寬度，點擊後變大 */
+  .dynamic-image {
+	  width: 90vw; /* 初始寬度 */
+	  height: auto;
+	  cursor: pointer;
+	  transition: width 0.3s ease-in-out;
+  }
+
+
+
+
+
+
+  /* 容器樣式 */
+  .keypad-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 4px;
+	padding: 12px;
+	margin-left:-12px;
+	width: 80vw;
+	height: auto;
+  }
+
+  /* 按鈕樣式 */
+  .button-11 {
+	touch-action: manipulation;
+	position: relative;
+	padding: 0;
+	width: 48px;
+	height: 48px;
+	border: 2px solid #888888;
+	outline: none;
+	background-color: transparent;
+	border-radius: 8px;
+	transition: 0.13s ease-in-out;
+	cursor: pointer;
+  }
+  .button-11:active {
+	box-shadow: none;
+  }
+  .button-11:active .button-11__content {
+	box-shadow: none;
+	margin:0;
+	margin-left:2px;
+	margin-right:2px;
+	/* height:42px;
+	border: 2px solid black; */
+	background:linear-gradient(#333333, #000000);
+  }
+  .button-11__content {
+	position: relative;
+	display: grid;
+	padding: 0px;
+	margin:2px;
+	margin-top:-4px;
+	width: 100%;
+	height: 100%;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	background:linear-gradient(#444444, #111111);
+	box-shadow: inset 0px -4px 0px #ffffff44,  0px 1px 0px #ffffff, 0px -2px 0px #222222 , -1px -4px 8px #ffffff11, -1px -2px 4px #ffffff11, -4px 0px 6px #ffffff11, 2px 8px 12px rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
+	transition: 0.13s ease-in-out;
+	z-index: 1;
+  }
+
+
+  .square {
+	  position:absolute;
+	  width: 70vw; /* 寬度200px */
+	  height: 70vw; /* 高度200px */
+	  max-height:300px;
+	  left:10vw; 
+	  top:120px;
+	  border-radius: 16px;
+	  background: radial-gradient(circle, transparent, #FFFFFF88);
+  }
