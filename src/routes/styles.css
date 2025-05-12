@@ -427,16 +427,6 @@ select, select:focus, select:hover, select:active {
 	100% { color: hsl(0, 100%, 50%); }  /* 回到紅 */
 }
 
-@keyframes rgbGamingEffectbor {
-	0% {   border: 1.5px solid hsl(0, 100%, 68%); }   /* 紅 */
-	16% {  border: 1.5px solid  hsl(30, 100%, 68%); }  /* 橙 */
-	33% {  border: 1.5px solid hsl(60, 100%, 68%); }  /* 黃 */
-	50% {  border: 1.5px solid  hsl(120, 100%, 68%); } /* 綠 */
-	66% {  border: 1.5px solid  hsl(240, 100%, 68%); } /* 藍 */
-	83% {  border: 1.5px solid  hsl(280, 100%, 68%); } /* 紫 */
-	100% { border: 1.5px solid  hsl(0, 100%, 68%); }  /* 回到紅 */
-}
-
 @keyframes rgbGamingEffectfill {
 	0%, 100% {   fill:   #FFFF00; }   
 	50% {  fill:  #FFD700; }  }
@@ -468,9 +458,69 @@ select, select:focus, select:hover, select:active {
 .Y-border {
 	animation: yellowBorder 3s infinite linear;
 }
+.no-rgb-border {
+	position: absolute;
+	top: 60px;
+	height: 290px;
+	width: 80vw;
+	min-width: 200px;
+	margin-left: 5vw;
+	border-radius: 32px;
+	border: 1px solid gold; /* 移除原有邊框 */
+	background: radial-gradient(circle at center, #000000 0%, transparent 66%);
+	box-sizing: border-box;
+	overflow: hidden;
+}
 
 .rgb-border {
-	animation: rgbGamingEffectbor 3s infinite linear, rgbGamingEffect 3s infinite linear;
+	position: absolute;
+	top: 60px;
+	height: 290px;
+	width: 80vw;
+	min-width: 200px;
+	margin-left: 5vw;
+	border-radius: 32px;
+	border: none; /* 移除原有邊框 */
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.rgb-border::before {
+	content: '';
+	position: absolute;
+	top: -3px;
+	left: -3px;
+	right: -3px;
+	bottom: -3px;
+	background: linear-gradient(
+		45deg,
+		hsl(0, 100%, 68%), /* 紅 */
+		hsl(30, 100%, 68%), /* 橙 */
+		hsl(60, 100%, 68%), /* 黃 */
+		hsl(120, 100%, 68%), /* 綠 */
+		hsl(240, 100%, 68%), /* 藍 */
+		hsl(280, 100%, 68%), /* 紫 */
+		hsl(0, 100%, 68%) /* 回到紅 */
+	);
+	background-size: 400% 400%;
+	z-index: 3;
+	animation: moveGradient 9s infinite linear;
+	/* 使用 border-image 模擬邊框效果 */
+	opacity:0.5;
+	border: 4px solid transparent;
+	border-radius: 34px; /* 略大於 div 的 border-radius 以確保圓角一致 */
+	-webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+}
+
+@keyframes moveGradient {
+  0% {
+	background-position: 0% 400%;
+  }
+  100% {
+	background-position: 400% 0%; /* 水平移動以模擬旋轉流動 */
+  }
 }
 
 .gold-fill {
@@ -533,6 +583,27 @@ select, select:focus, select:hover, select:active {
 	75% {
 		border: 1.5px solid #FFFFCC;
 	}
+}
+
+/* 定義動畫 */
+@keyframes borderGlowhChange2 {
+	0%, 100% {
+		border: 0.5px solid #FFFFFF;
+	}
+	25% {
+		border: 0.5px solid #FFFF00;
+	}
+	50% {
+		border: 0.5px solid #FFD700;
+	}
+	75% {
+		border: 0.5px solid #FFFF00;
+	}
+}
+
+.gold-border2 {
+	animation: borderGlowhChange2 8s infinite;
+	transition: border 4s ease-in-out;
 }
 
 .gold-border {
@@ -1035,7 +1106,7 @@ div::-webkit-scrollbar {
 	margin-right:2px;
 	/* height:42px;
 	border: 2px solid black; */
-	background:linear-gradient(#333333, #000000);
+	background:linear-gradient(#111111, #000000);
   }
   .button-11__content {
 	position: relative;
@@ -1047,9 +1118,9 @@ div::-webkit-scrollbar {
 	height: 100%;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
-	background:linear-gradient(#444444, #111111);
+	background:linear-gradient(#333333, #111111);
 	box-shadow: inset 0px -4px 0px #ffffff44,  0px 1px 0px #ffffff, 0px -2px 0px #222222 , -1px -4px 8px #ffffff11, -1px -2px 4px #ffffff11, -4px 0px 6px #ffffff11, 2px 8px 12px rgba(0, 0, 0, 0.2);
-	border-radius: 5px;
+	border-radius: 8px;
 	transition: 0.13s ease-in-out;
 	z-index: 1;
   }

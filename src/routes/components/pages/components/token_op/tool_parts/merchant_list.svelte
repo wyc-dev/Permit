@@ -71,17 +71,13 @@
 
 <div
     in:fade={{ duration: 800 }} 
-    style="position: absolute; top: 56px; bottom: 120px; height: auto; width: 80vw; min-width: 200px; margin-left: 5vw; border-radius: 16px; border-top: 1.5px solid #333333; background: linear-gradient(#111000, transparent);"
->
+    style="position: absolute; top: 56px; bottom: 120px; height: auto; width: 80vw; min-width: 200px; margin-left: 5vw; border-radius: 16px; border-top: 1.5px solid #333333; background: linear-gradient(#111000, transparent);">
 
     <div style="background:#8CFFFB; width:8px;height:8px; position:absolute;top:40px;left:5vw;border-radius:8px ;"></div> 
     <p style="color:#8CFFFB; width:8px;width:120px; position:absolute;top:28px;left:5vw;">{$lang === "ZH" ? "可儲值" : "Can deposit"}</p>
     <div style="background:#ccacf8; width:8px;height:8px; position:absolute;top:40px;left:calc(5vw + 120px);border-radius:8px ;"></div> 
     <p style="color:#ccacf8; width:8px;width:120px; position:absolute;top:28px;left:calc(5vw + 116px);">{$lang === "ZH" ? "可消費" :"Can spend"}</p>
-    <!-- <h3 class="gold-text" style="position: absolute; padding: 0px; color: white; margin-top: 12px; text-align: center; font-size: 16px; margin-left: 16px;"
-    >
-        Businesses support TOKEN:
-    </h3> -->
+    
     <div class="scroll-container">
         {#each merchant_list as merchant}
             <a href={merchant.link} target="_blank" class="merchant-card " in:fade={{ duration: 800 }}>
@@ -91,9 +87,19 @@
             </a>
         {/each}
     </div>
+    
+</div>
+
+<div style="position:fixed; width:100%; height:auto;
+            top:120px; bottom:0; left:0vw; background: #000000cc; z-index:2900;">
+            <p style="position:fixed; top:260px; width:100%;left:0; text-align: center;z-index:3000; color:white;">
+                Full merchants list<br>
+                Coming soon in Q3 2025
+            </p>
 </div>
 
 <style>
+    
     .scroll-container {
         position: absolute;
         display: flex;
@@ -120,8 +126,8 @@
 
     .merchant-logo {
         border-radius: 12px;
-        width: 40px;
-        height: 40px;
+        width:   40px;
+        height:  40px;
         object-fit: contain;
         transition: transform 0.3s ease;
     }
@@ -129,4 +135,5 @@
     .merchant-logo:hover {
         transform: scale(1.5);
     }
+    
 </style>

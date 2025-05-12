@@ -60,19 +60,19 @@
     // 註冊與移除事件監聽器及設置顏色和展開
     onMount(() => {
         // 檢查是否符合運行條件
-        if (!window.Telegram.WebApp.initDataUnsafe.start_param) {
-            // $tonConnectUI.disconnect().then(() => {
-            //     console.log("Disconnected successfully.");
-            //     main_raw_address.set(null); // 清空原始地址
-            //     main_address.set(null); // 清空转换后的地址
-            // }).catch((e) => {
-            //     console.error("Disconnect failed:", e.message);
-            // });
-            // modalTitle = "Browser Restricted";
-            // modalMessage = `Please use Telegram App to check status and claim airdrops.`;
-            // showModal = true;
-            return; // 停止後續執行
-        }
+        // if (!window.Telegram.WebApp.initDataUnsafe.start_param) {
+        //     // $tonConnectUI.disconnect().then(() => {
+        //     //     console.log("Disconnected successfully.");
+        //     //     main_raw_address.set(null); // 清空原始地址
+        //     //     main_address.set(null); // 清空转换后的地址
+        //     // }).catch((e) => {
+        //     //     console.error("Disconnect failed:", e.message);
+        //     // });
+        //     // modalTitle = "Browser Restricted";
+        //     // modalMessage = `Please use Telegram App to check status and claim airdrops.`;
+        //     // showModal = true;
+        //     return; // 停止後續執行
+        // }
         // 設置頁眉和背景顏色
         setHeaderColor();
         setBackgroundColor();

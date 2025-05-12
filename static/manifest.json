@@ -1,7 +1,17 @@
 {
-    "url": "https://permit.money/",
-    "name": "Permit",
-    "iconUrl": "https://permit.money/favicon.png",
-    "termsOfUseUrl": "https://permit.money/terms",
-    "privacyPolicyUrl": "https://permit.money/privacy"
+  "name": "Permit",
+  "short_name": "Permit",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "https://permit.money/favicon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "termsOfUseUrl": "https://permit.money/",
+  "privacyPolicyUrl": "https://permit.money/"
 }

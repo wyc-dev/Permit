@@ -1,16 +1,15 @@
 <script>
 
-
-    import EcoZH from "./ZH.png";
-    import EcoEN from "./EN.png";
     import Logic from "./tokens/TOKEN_logic.png";
     import Deposit from "./tokens/1.png";
     import Spend from "./tokens/2.png";
+    import Permit101 from "./tokens/permit101.png";
+    import Permit101zh from "./tokens/permit101zh.png";
     import TOKEN_flow from "./tokens/TOKEN_flow.png";
     import earth from "./assets/ton_invest_power_bg.mp4";
     import Open from "./assets/open.svelte";
     import Close from "./assets/close.svelte";
-
+    import ID from "./assets/DID.mp4";
     import Org from "./Organizations.svelte";
     import { lang , TOKENContractAddress } from '../../../store.js';
     import { slide } from "svelte/transition";
@@ -46,6 +45,22 @@
       }
 
     onMount(() => {
+        // Preload images
+        const imagesToPreload = [
+            Logic,
+            Deposit,
+            Spend,
+            Permit101,
+            Permit101zh,
+            TOKEN_flow
+        ];
+
+        imagesToPreload.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        // Existing onMount logic
         if (scrollContainer) {
             scrollContainer.addEventListener('scroll', updateButtonOpacity);
         }
@@ -119,20 +134,30 @@
         lang.set($lang === "EN" ? "ZH" : "EN")
       }
 
-    function toggleSize() {
-        const img = document.getElementById("toggleImage");
+    // function toggleSize() {
+    //     const img = document.getElementById("toggleImage");
+    //     if (img.style.width === "90vw" && !isWide) {
+    //         img.style.width = "300vw"; // 放大，導致橫向滾動
+    //         img.style.height = "auto"; // 高度不變
+    //     } else {
+    //         img.style.width = "90vw"; // 回復
+    //         img.style.height = "auto";
+    //     }
+    // }
+    function toggleSize2() {
+        const img = document.getElementById("toggleImage2");
         if (img.style.width === "90vw" && !isWide) {
-            img.style.width = "300vw"; // 放大，導致橫向滾動
+            img.style.width = "200vw"; // 放大，導致橫向滾動
             img.style.height = "auto"; // 高度不變
         } else {
             img.style.width = "90vw"; // 回復
             img.style.height = "auto";
         }
     }
-    function toggleSize2() {
-        const img = document.getElementById("toggleImage2");
+    function toggleSize3() {
+        const img = document.getElementById("toggleImage3");
         if (img.style.width === "90vw" && !isWide) {
-            img.style.width = "200vw"; // 放大，導致橫向滾動
+            img.style.width = "160vw"; // 放大，導致橫向滾動
             img.style.height = "auto"; // 高度不變
         } else {
             img.style.width = "90vw"; // 回復
@@ -210,10 +235,28 @@
         <BackButton/>
     </button>
     
-    <button on:click={toggleLanguage} 
-        style="opacity: {buttonOpacity}; position:absolute; top:8px; right:calc(8vw); margin-right:-10px; z-index: 1002; background: #00000044; color: white; padding: 4px 8px; border:4px solid #000000; font-size: 16px; cursor: pointer;">
-        <Translate/>
-    </button>
+    <button disabled={buttonOpacity === 0} class="button-11" on:click={toggleLanguage}  style="opacity: {buttonOpacity}; position:absolute; top:8px; right:calc(8vw); margin-right:-10px; z-index: 1002; background: transparent; color: white; border:1px solid #888888; cursor: pointer;">
+        <div class="button-11__content" style="display:flex; justify-content:center; align-items:center; height:100%;">
+                    <video 
+                        autoplay 
+                        loop 
+                        muted 
+                        playsinline 
+                        style="
+                        position: fixed; 
+                        max-width: 40px; 
+                        height: 36px; 
+                        object-fit: cover;
+                        border-radius: 8px; 
+                        margin-top:-4px;
+                        border:1px solid #FFFFFF44;
+                        opacity:0.4;
+                        z-index:-1;">
+                        <source src={ID} type="video/mp4" />
+                    </video>
+                 <span style="margin-top:8px;"><Translate/></span>
+            </div>
+      </button>
 
     
 
@@ -226,11 +269,7 @@
 
         <div  transition:slide={{ duration: 150 }}  style="margin-top: 80px; background: black;margin-left:5vw;">
 
-
-
-
             <div  transition:slide={{ duration: 150 }}  disabled style="height:20px;"></div>
-
             
             <p transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "why")
                     { topic = "" } else { topic = "why" } }} 
@@ -242,7 +281,7 @@
                 ⚡ {$lang === "EN" ? "Why Permit ?" : "為何選用 Permit ?"}
             </p>
             <div  transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "why")
-                    { topic = "" } else { topic = "why" } }} style="position:absolute; margin-top:-55px;right:10vw;opacity:{topic === "why" ? 1 : 0.4};">
+                    { topic = "" } else { topic = "why" } }} style="position:absolute; margin-top:-55px;right:8vw;opacity:{topic === "why" ? 1 : 0.4};">
                 {#if topic === "why"}
                     <Close />
                 {:else}
@@ -252,7 +291,8 @@
             
             {#if topic === "why"}
                     
-                    <div transition:slide={{ duration: 300 }}  on:click={toggleTable} style="width: 90vw; height: calc(200px + {table_height_add}px); border-left: 1px solid #FFFF00; border-right: 1px solid #FFFF00; margin-bottom: 20px; overflow-y: auto; border-radius: 8px;">
+                    <div transition:slide={{ duration: 300 }}  on:click={toggleTable} style="width: 90vw; height: calc(210px + {table_height_add}px); border-left: 1px solid #FFFF00; border-right: 1px solid #FFFF00; border-top: 1px dotted #ffffff; margin-bottom: 20px; overflow-y: auto; border-radius: 8px;{isWide ? "max-width:600px;" : ""}
+                                                                                             background: linear-gradient(to bottom, #FFFFFF44, transparent, transparent, transparent, transparent, transparent, transparent); ">
         
                           <video disabled
                             autoplay 
@@ -261,10 +301,10 @@
                             playsinline
                               style="
                                 position: absolute;
-                                top: 240px;
+                                top: 210px;
                                 left:(5vw + 1px);
                                 height: calc(100px + {table_height_add}px);
-                                width: calc(90vw - 1px);
+                                width: calc(90vw - 1px); {isWide ? "max-width:599px;" : ""}
                                 object-fit: cover;
                                 border-radius: 8px;
                                 z-index: 1;
@@ -283,7 +323,8 @@
                                   background: radial-gradient(circle, rgba(17, 17, 17, 0.4) 0%, transparent 80%);
                                   position: relative;
                                 "
-                              >                    <thead>
+                              > 
+                            <thead>
                                 <tr>
                                     <th style="padding: 8px;width:35%;font-weight: 700; font-size: 20px ;background: linear-gradient(to bottom, #FFFFFF, #FFFFFF, #FFFF00, #FFD700, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{$lang === "EN" ? "Permit" : "Permit "}</th>
                                     <th style="padding: 8px;width:10%;"></th>
@@ -359,49 +400,56 @@
                                         {@html $lang === "EN" ? "Complex bank procedures from 2 days to 4 weeks" : "申請Visa卡或POS機需經過 2 日至 4 週的繁瑣銀行流程"}
                                     </td>
                                 </tr>
-                                <!-- <tr>
-                                    <td class="gold-text" style="padding: 8px;text-align: left;">{$lang === "EN" ? "Recharge limit" : "儲值限額"}</td>
-                                    <td style="padding: 8px;font-size: 16px;">{@html $lang === "EN" ? "No limit" : "無上下限"}</td>
-                                    <td style="padding: 8px;font-size: 10px;">{$lang === "EN" ? "With a minimum and maximum recharge amount" : "設有最低及最高增值額"}</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #555;">
-                                    <td class="gold-text" style="padding: 8px;text-align: left;">{$lang === "EN" ? "Decentralization" : "去中心化"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "Yes, blockchain-based, no intermediaries" : "是，基於區塊鏈，無中介"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "No, relies on banks or payment platforms" : "否，依賴銀行或支付平台"}</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #555;">
-                                    <td class="gold-text" style="padding: 8px;text-align: left;">{$lang === "EN" ? "Transaction Transparency" : "交易透明性"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "High, all transactions publicly verifiable" : "高，所有交易公開可查"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "Low, data controlled by centralized entities" : "低，數據由中心化機構控制"}</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #555;">
-                                    <td class="gold-text" style="padding: 8px;text-align: left;">{$lang === "EN" ? "Flexibility" : "靈活性"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "Supports rebates and quota management" : "支持折扣、額度管理"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "Limited, requires additional setup" : "有限，需額外配置"}</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #555;">
-                                    <td class="gold-text" style="padding: 8px;text-align: left;">{$lang === "EN" ? "Security" : "安全性"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "Blockchain encryption, reentrancy protection" : "區塊鏈加密，防重入攻擊"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "Relies on centralized systems, vulnerable to hacks" : "依賴中心化系統，易受駭"}</td>
-                                </tr>
-                                <tr>
-                                    <td class="gold-text" style="padding: 8px;text-align: left;">{$lang === "EN" ? "Intermediary Fees" : "中介費用"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "Low, only Gas fees" : "低，僅需 Gas 費"}</td>
-                                    <td style="padding: 8px;">{$lang === "EN" ? "High, fees charged by third parties" : "高，手續費由第三方收取"}</td>
-                                </tr> -->
+
                             </tbody>
                                 <div  transition:slide={{ duration: 150 }}  disabled style="height:40px;"></div>
                         </table>
                     </div>
         
-                    <div  transition:slide={{ duration: 150 }}  style="position:absolute; background:linear-gradient(transparent, #000000ee, #000000); height: 60px; width:100vw; top:calc(300px + {table_height_add}px); left:0; z-index:5; "></div>
+                    <div  transition:slide={{ duration: 150 }}  style="position:absolute; background:linear-gradient(transparent, #000000ee, #000000); height: 60px; width:100vw; top:calc(310px + {table_height_add}px); left:0; z-index:5; "></div>
                     
                     <p transition:slide={{ duration: 150 }}  style="margin-right: 5vw; margin-top:-8px; margin-bottom:20px;font-size: 12px; font-weight: 500; text-align: center;"> 
                      {@html $lang === 'EN' ? "<span style='font-size:12px;font-weight:700;color:#444444; '>(Tap / scroll to view the entire table)</span>" : "<span style='font-size:12px;font-weight:700;color:#444444; '>( 點擊 / 滾動查看整個表格 )</span>"}
                     </p>
-                    
-                    <div  transition:slide={{ duration: 150 }}  style="width:80vw; height:80px; background: linear-gradient(transparent, #00000000);; margin-top:-40px;"></div>
 
+
+            {/if}
+
+            <p transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "how")
+                { topic = "" } else { topic = "how" } }} 
+            class={topic === "how" ? "gold-text" : ""}
+            style=" color:{topic === "" ? "white" : "#666666"}; margin-top:40px; left:5vw; line-height:20px; display: flex; align-items: center; font-weight: 700; z-index: 1000;
+                   color: white; font-size: 16px; ">
+            ⚡ {$lang === "EN" ? "How Permit works?" : "如何操作 Permit ?"}
+            </p>
+            <div  transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "how")
+                { topic = "" } else { topic = "how" } }} style="position:absolute; margin-top:-30px;right:8vw;opacity:{topic === "how" ? 1 : 0.4};">
+            {#if topic === "how"}
+                <Close />
+            {:else}
+                <Open />
+            {/if}
+            </div>
+
+            {#if topic === "how"}
+
+                <p transition:slide={{ duration: 150 }}  style="margin: 16px; margin-top:24px; margin-bottom:12px;font-size: 12px; font-weight: 500; text-align: left;"> 
+                    {@html langText.p2}
+                </p>
+
+                <div  on:click={toggleSize3} transition:slide={{ duration: 300 }}  class="image-container"  style="margin-bottom:16px;">
+                        <img on:click={toggleSize3} id="toggleImage3"
+                            src={$lang === "EN" ? Permit101 : Permit101zh} 
+                            alt="Permit101" style="{isWide ? "max-width:600px;" : ""}"
+                            class="dynamic-image"
+                        />
+
+                </div>
+                
+            {:else if topic === "why"}
+                
+                <div style="height:32px;"></div>
+                
             {/if}
         
 
@@ -413,7 +461,7 @@
             ⚡ {langText.topic4}
             </p>
             <div  transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "new")
-                    { topic = "" } else { topic = "new" } }} style="position:absolute; margin-top:-30px;right:10vw;opacity:{topic === "new" ? 1 : 0.4};">
+                    { topic = "" } else { topic = "new" } }} style="position:absolute; margin-top:-30px;right:8vw;opacity:{topic === "new" ? 1 : 0.4};">
                 {#if topic === "new"}
                     <Close />
                 {:else}
@@ -423,21 +471,17 @@
 
             {#if topic === "new"}
         
-                    <p transition:slide={{ duration: 150 }}  style="margin: 16px; margin-top:24px; margin-bottom:0px;font-size: 12px; font-weight: 500; text-align: left;"> 
-                         {@html langText.p4}
-                    </p>
-        
                     <p transition:slide={{ duration: 150 }}  style="margin: 16px; margin-top:24px; margin-bottom:12px;font-size: 12px; font-weight: 500; text-align: left;"> 
-                     {@html langText.p2}
+                        {@html langText.p2}
                     </p>
         
                     <div  transition:slide={{ duration: 300 }}  on:click={toggleSize2} class="image-container">
-                        <img   id="toggleImage2"
-                             src={TOKEN_flow} 
-                             alt="TOKEN_flow" 
-                            class="dynamic-image2"
-                             style="width:90vw;max-width:1200px;margin-top:32px;"
-                              />
+                        <img    id="toggleImage2"
+                                src={TOKEN_flow} 
+                                alt="TOKEN_flow" 
+                                class="dynamic-image2"
+                                style="width:90vw;max-width:1200px;margin-top:32px;{isWide ? "max-width:800px;" : ""}"
+                                />
                     </div>
         
                     <p transition:slide={{ duration: 150 }}  style=" margin-left:-5vw; font-size: 12px; font-weight: 700; z-index: 1000;margin-top:28px;margin-bottom:40px;"> 
@@ -470,49 +514,9 @@
                     </p>
         
                     <p transition:slide={{ duration: 150 }}  style="margin-top: 0px; margin-left:-5vw; font-size: 12px; font-weight: 700; z-index: 1000;margin-top:20px;"> 
-                        <a transition:slide={{ duration: 150 }}  href="https://wa.me/85292917594" target="_blank" class="spam" style=" font-weight: 700; text-decoration-color: #FFD7aa ; color:#FFD7aa; font-size: 12px;">
+                        <a transition:slide={{ duration: 150 }}  href="https://forms.gle/8UMjRt6yGFWfhgJo8" target="_blank" class="spam" style=" font-weight: 700; text-decoration-color: #FFD7aa ; color:#FFD7aa; font-size: 12px;">
                         {langText.onboard}</a>
                     </p>
-            {/if}
-
-            <p transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "eco")
-                                { topic = "" } else { topic = "eco" } }} 
-                class={topic === "eco" ? "gold-text" : ""}
-                style=" color:{topic === "" ? "white" : "#666666"}; left:5vw; line-height:20px; display: flex; align-items: center; font-weight: 700; z-index: 1000; margin-top:40px;
-                  color: white; font-size: 16px;">
-            ⚡ {langText.topic2}
-            </p>
-            <div  transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "eco")
-                    { topic = "" } else { topic = "eco" } }}  style="position:absolute; margin-top:-30px;right:10vw;opacity:{topic === "eco" ? 1 : 0.4};">
-                {#if topic === "eco"}
-                    <Close />
-                {:else}
-                    <Open />
-                {/if}
-            </div>
-
-            {#if topic === "eco"}
-        
-                    <p transition:slide={{ duration: 150 }}  style="margin: 16px; margin-top:24px; margin-bottom:40px;font-size: 12px; font-weight: 500; text-align: left;"> 
-                     {@html langText.p2}
-                    </p>
-        
-                    <div  transition:slide={{ duration: 300 }}  on:click={toggleSize} class="image-container">
-                    <!-- 允許橫向滾動的內部容器 -->
-                    <div  transition:slide={{ duration: 150 }}  on:click={toggleSize} class="scroll-container">
-                        <img id="toggleImage"   
-                             src={$lang === "en" ? EcoEN : EcoZH } 
-                             alt="EcoZH" 
-                             class="dynamic-image"
-                              />
-                    </div>
-                    </div>
-        
-                    <p transition:slide={{ duration: 150 }}  style="margin-top: 0px; margin-left:-5vw; font-size: 12px; font-weight: 700; z-index: 1000;margin-top:20px;"> 
-                    <a transition:slide={{ duration: 150 }}  href="https://wa.me/85292917594" target="_blank" class="spam" style=" font-weight: 700; text-decoration-color: #FFD7aa ; color:#FFD7aa; font-size: 12px;">
-                    {langText.launch}</a>
-                    </p>
-
             {/if}
         
             <p transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "org")
@@ -522,8 +526,9 @@
                       color: white; font-size: 16px; z-index: 1000;">
             ⚡ {langText.topic3}
             </p>
+            
             <div  transition:slide={{ duration: 150 }}  on:click={()=>{if (topic === "org")
-                    { topic = "" } else { topic = "org" } }} style="position:absolute; margin-top:-30px;right:10vw;opacity:{topic === "org" ? 1 : 0.4};">
+                    { topic = "" } else { topic = "org" } }} style="position:absolute; margin-top:-30px;right:8vw;opacity:{topic === "org" ? 1 : 0.4};">
                 {#if topic === "org"}
                     <Close />
                 {:else}
@@ -534,12 +539,9 @@
             {#if topic === "org"}
             
                     <div  transition:slide={{ duration: 300 }}  disabled style="margin-left: 5vw; width:80vw;"><Org/></div>
-        
-                    <a transition:slide={{ duration: 150 }}  href="https://docs.power-network.fyi/" target="_blank" 
-                       style="color: #888888; font-size: 12px; font-weight: 600; margin-left:-5vw;
-                              margin-top: -60px; margin-bottom: 120px;display: block; text-align: center;">
-                        {langText.moreDetails}
-                    </a>
+
+                    <p transition:slide={{ duration: 150 }}  style="margin-top: 0px; margin-left:-5vw; font-size: 12px; font-weight: 700; z-index: 1000;margin-top:20px;"> 
+                
             {/if}
 
               <video 
@@ -548,14 +550,11 @@
                     loop 
                     muted 
                     playsinline 
-                    class="canvas3d" style="width:80vw; max-width: 400px; margin-left:5vw;margin-top: 60px;">
+                    class="canvas3d" style="width:80vw; max-height: 160px; margin-left:5vw;margin-top: 60px;">
                     <source src={System} type="video/mp4"/>
               </video>
 
-            <!-- <div  transition:slide={{ duration: 150 }}  style="position:fixed; bottom:0; left:0; z-index: 100;
-                height:60px; width:100vw;background: #000000;"></div> -->
-
-            <a transition:slide={{ duration: 150 }}  href="https://t.me/permit_money" target="_blank" 
+            <a transition:slide={{ duration: 150 }}  href="https://x.com/erc20permit" target="_blank" 
                style=" color: #888888; font-size: 12px; font-weight: 600; margin-top:-60px; margin-bottom: 20px;
                        display: block; text-align: center; width:90vw; left:0;">
                 © 2025 Permit Foundation

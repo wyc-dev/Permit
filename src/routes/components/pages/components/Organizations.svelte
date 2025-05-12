@@ -3,7 +3,7 @@
   import YC from "./team/WYC.jpeg";
   import Nir from "./team/Nir.png";
   import Brian from "./team/Brian.png";
-  import Hamed from "./team/Hamed.jpeg";
+  import Desmond from "./team/Desmond.jpeg";
   import Tonny from "./team/Tonny.png";
 
   import adobe from "./corp/adobe.jpeg";
@@ -14,7 +14,6 @@
   import liquidium from "./corp/liquidium.jpeg";
   import match_system from "./corp/match_systems.jpeg";
   import tvb from "./corp/mytv_super.jpeg";
-  import satori from "./corp/satori_research.jpeg";
   import siemens from "./corp/siemens.jpeg";
   import walmart from "./corp/walmart.jpeg";
 
@@ -24,14 +23,14 @@
      describe : "Tech Lead"},
     // { name: "Jay Burgess", logo: JB  , url: "https://jayburgess.site/", 
     //  describe : "Fractional CRO"},
-    { name: "Nirjyoti", logo: Nir  , url: "https://www.linkedin.com/in/nirjyoti-gogoi-b0a517232/",
-    describe : "Evangelist"},
-    { name: "Brian Leung", logo: Brian  , url: "https://www.linkedin.com/in/brian-leung-b06619b0/",
-    describe : "Service Manager"},
+    // { name: "Nirjyoti", logo: Nir  , url: "https://www.linkedin.com/in/nirjyoti-gogoi-b0a517232/",
+    // describe : "Evangelist"},
+    // { name: "Brian Leung", logo: Brian  , url: "https://www.linkedin.com/in/brian-leung-b06619b0/",
+    // describe : "Service Manager"},
     { name: "Tonny Ho", logo: Tonny  , url: "",
-    describe : "Product Manager"},
-    { name: "Hamed Niavand", logo: Hamed  , url: "https://www.linkedin.com/in/hamedniavand/",
-    describe : "Evangelist (UAE)"},
+    describe : "BD Lead"},
+    { name: "Dr. Desmond Li", logo: Desmond  , url: "https://www.linkedin.com/in/hamedniavand/",
+    describe : "Algo Advisor"},
     // Add more here
   ];
 

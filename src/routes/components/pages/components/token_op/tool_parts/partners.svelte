@@ -1,6 +1,6 @@
 <script>
     import { fade } from "svelte/transition";
-    import { lang } from '../../../../../store.js';
+    // import { lang } from '../../../../../store.js';
     import Sleptbase from "./merchants_logo/sleptbase.png";
     import Mattock from "./merchants_logo/mattock.png";
     import Nook from "./merchants_logo/nook.png";
@@ -24,6 +24,10 @@
     import PartnersV from "./merchants_logo/partners_vdo.mp4";
     import Coinbase from "./merchants_logo/coinbase.png";
     import Base from "./merchants_logo/base.jpeg";
+    import Aced from "./merchants_logo/aced.png";
+    import Ourbit from "./merchants_logo/ourbit.png";
+    import Ultiland from "./merchants_logo/ultiland.png";
+    import CFT from "./merchants_logo/CFTime.jpeg";
     
     export let merchant_list = [
         { link: "https://hsk.xyz/", logo: Coinbase,  },
@@ -33,6 +37,9 @@
         { link: "https://buzz-up.io/", logo: BuzzUp,  },
         { link: "https://www.linkedin.com/company/mattock-technologies-limited/", logo: Mattock,  },
         { link: "https://linktr.ee/monsterblockhk", logo: MB, },
+        { link: "https://cftime.io/", logo: CFT, },
+        { link: "https://www.ultiland.io/", logo: Ultiland,  },
+        { link: "https://www.ourbit.com/", logo: Ourbit,  },
         { link: "https://gfiresearch.net/", logo: Gfi, },
         { link: "https://www.dropsystem.io/", logo: Drop, },
         { link: "https://t.me/UStars_bot?start=BBDD23A8", logo: Ustar, },
@@ -40,42 +47,17 @@
         { link: "https://app.truemarkets.org/en/markets", logo: True,  },
         { link: "https://jibchain.net/", logo: JB, },
         { link: "https://www.soundbeats.io/", logo: Soundbeats, },
-        { link: "https://www.instagram.com/karsonvocalcoach/profilecard/?igsh=Y3VuYjc4Z3d6d3k5", logo: Karson,  },
+        { link: "https://www.instagram.com/karsonvocalcoach", logo: Karson,  },
         { link: "https://sosenstudio.com/", logo: Sosen ,  },
         { link: "https://www.lxstudio.co/", logo: LX,  },
         { link: "https://www.sleptbase.ltd/", logo: Sleptbase, },
+        { link: "https://www.instagram.com/aced_bar", logo: Aced, },
         { link: "https://www.lockcha.com/", logo: LockCha, },
-        { link: "https://www.instagram.com/s.tattoostudio?igsh=dG5rMHZkaWdiZHMx", logo: Stattoo,  },
+        { link: "https://www.instagram.com/s.tattoostudio", logo: Stattoo,  },
         { link: "https://www.instagram.com/bar_nook_hk/", logo: Nook,  },
         { link: "https://tonx.ai/", logo: Tonx, },
-        // { name: "Sleptbase C", logo: Sleptbase }
     ];
 
-    function round(value, decimals) {
-        return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
-    }
-
-    function formatVolume(value, float) {
-        if (!value || isNaN(value) || value == null || value == 0) {
-            return 0;
-        } else if (value >= 1000000000000000000000) { // 10²¹
-            return `${(value / 1000000000000000000000).toFixed(float)} Z`;
-        } else if (value >= 1000000000000000000) {    // 10¹⁸
-            return `${(value / 1000000000000000000).toFixed(float)} E`;
-        } else if (value >= 1000000000000000) {       // 10¹⁵
-            return `${(value / 1000000000000000).toFixed(float)} P`;
-        } else if (value >= 1000000000000) {          // 10¹²
-            return `${(value / 1000000000000).toFixed(float)} T`;
-        } else if (value >= 1000000000) {
-            return `${(value / 1000000000).toFixed(float)} B`;
-        } else if (value >= 1000000) {
-            return `${(value / 1000000).toFixed(float)} M`;
-        } else if (value >= 1000) {
-            return `${(value / 1000000).toFixed(float)} K`;
-        } else if (value) {
-            return round(value, float);
-        }
-    }
 </script>
 
 
@@ -85,14 +67,14 @@
     autoplay 
     loop 
     muted 
-    playsinline transition:blur={{ duration: 300 }} 
+    playsinline
     style="
         position: fixed; 
         top: 220px;
-        left: calc(50% + 24px);
+        left: 50%;
         transform: translate(-50%, -50%);
         width:180vw;
-        max-width: 800px; 
+        min-width: 100vw; 
         height: 300px; 
         object-fit: cover;
         border-left: 0px solid;
@@ -101,14 +83,16 @@
         overflow: none;
         opacity: 0.1;
         z-index: -1;">
-    <source src={PartnersV} transition:blur={{ durFation: 300 }}  type="video/mp4" />
+    <source src={PartnersV} type="video/mp4" />
   </video>
     <div transition:fade={{ duration: 150 }}  class="scroll-container">
         {#each merchant_list as merchant}
-            <p class="merchant-card " in:fade={{ duration: 800 }}>
+            <p class="merchant-card ">
                 <img src={merchant.logo} alt={merchant.name} class="merchant-logo" />
             </p>
         {/each}
+    </div>
+    <div transition:fade={{ duration: 150 }}  class="scroll-container2" style="z-index:30;background:linear-gradient(transparent, #00000088, transparent);">
     </div>
 
 <div style="position:fixed; background:linear-gradient(transparent, #000000); height: 24px; width:100vw; top:348px; left:0; z-index:1; "></div>
@@ -129,6 +113,22 @@
         min-height:160px;
         width:100vw;
         opacity: 0.2;
+        /* max-width: 400px; */
+    }
+    .scroll-container2 {
+        position: fixed;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        background-color: black;
+        gap: 5vw;
+        padding: 0px;
+        overflow-y: auto;
+        top:68px;
+        height:300px;
+        min-height:160px;
+        width:100vw;
+        opacity: 1;
         /* max-width: 400px; */
     }
 
