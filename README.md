@@ -1,8 +1,8 @@
-# Permit ⚡
+# ⚡ Permit
 
 A decentralized launchpad and payment gateway built on the Base blockchain.
 
-## About this Project ⚡
+## ⚡ About this Project
 
 Since some API settings are hidden or changed on the official website, please go directly to the DAPP website to use the functions or review: https://permit.money/
 
