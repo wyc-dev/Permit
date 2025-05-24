@@ -14,4 +14,5 @@ https://basescan.org/address/0x547d38746207443cbe6d9fab37e20249e14f0d22#code
 ## ⚡ Merchants SDK
 
 This document is a comprehensive guide for e-commerce merchants' technical teams to integrate and leverage the TOKEN on the Base chain. The protocol facilitates secure payment management and token minting using a pre-authorized merchant address and private key. Built with ethers.js, this SDK ensures seamless interaction with the Base chain.
+
 https://permit.gitbook.io/permit-docs/merchants/quickstart/e-commerce-api-sdk
