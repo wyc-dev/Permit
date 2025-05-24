@@ -13,4 +13,5 @@ https://basescan.org/address/0x547d38746207443cbe6d9fab37e20249e14f0d22#code
 
 ## ⚡ Merchants SDK
 
-We are preparing a developer-friendly, simple package that allows e-commerce companies to integrate into their websites or business systems easily. This package will be modified with Ether.js and Coinbase Wallet SDK, and Web3 native developers can also connect to our payment system service through the smart contract address and its ABI.
+This document is a comprehensive guide for e-commerce merchants' technical teams to integrate and leverage the TOKEN on the Base chain. The protocol facilitates secure payment management and token minting using a pre-authorized merchant address and private key. Built with ethers.js, this SDK ensures seamless interaction with the Base chain.
+https://permit.gitbook.io/permit-docs/merchants/quickstart/e-commerce-api-sdk
